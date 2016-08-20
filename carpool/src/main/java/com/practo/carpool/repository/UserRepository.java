@@ -1,0 +1,11 @@
+package com.practo.carpool.repository;
+
+import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Repository;
+
+import com.practo.carpool.data.entity.User;
+
+@Repository
+public interface UserRepository extends CrudRepository<User, Integer> {
+
+}
