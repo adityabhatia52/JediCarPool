@@ -1,6 +1,3 @@
-/**
- * 
- */
 package com.practo.carpool.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,49 +9,45 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.practo.carpool.data.model.AddressModel;
-import com.practo.carpool.service.AddressService;
+import com.practo.carpool.data.model.ListingModel;
+import com.practo.carpool.service.ListingService;
 
-/**
- * @author aditya
- *
- */
 @RestController
-@RequestMapping("/address")
-public class AddressController {
+@RequestMapping("/lisiting")
+public class ListingController {
 
   @Autowired
-  private AddressService addressServe;
+  private ListingService lisitingServe;
 
   @RequestMapping(method = RequestMethod.GET)
-  public Iterable<AddressModel> get() {
-    return addressServe.get();
+  public Iterable<ListingModel> get() {
+    return lisitingServe.get();
   }
 
   @RequestMapping(method = RequestMethod.POST)
-  public ResponseEntity<AddressModel> create(@RequestBody AddressModel um) {
-    AddressModel newUm = new AddressModel();
-    newUm = addressServe.create(um);
-    ResponseEntity<AddressModel> response =
-        new ResponseEntity<AddressModel>(newUm, HttpStatus.CREATED);
+  public ResponseEntity<ListingModel> create(@RequestBody ListingModel um) {
+    ListingModel newUm = new ListingModel();
+    newUm = lisitingServe.create(um);
+    ResponseEntity<ListingModel> response =
+        new ResponseEntity<ListingModel>(newUm, HttpStatus.CREATED);
     return response;
   }
 
   @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-  public AddressModel get(@PathVariable("id") int id) {
-    return addressServe.get(id);
+  public ListingModel get(@PathVariable("id") int id) {
+    return lisitingServe.get(id);
   }
 
   /*
-   * @RequestMapping(method = RequestMethod.PUT) public ResponseEntity<addressModel>
-   * update(@RequestBody addressModel um, int id) { address u = repository.save(address);
-   * ResponseEntity<address> response = new ResponseEntity<address>(u, HttpStatus.OK); return
+   * @RequestMapping(method = RequestMethod.PUT) public ResponseEntity<lisitingModel>
+   * update(@RequestBody lisitingModel um, int id) { lisiting u = repository.save(lisiting);
+   * ResponseEntity<lisiting> response = new ResponseEntity<lisiting>(u, HttpStatus.OK); return
    * response; }
    */
 
   @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
   public ResponseEntity<Boolean> delete(@PathVariable("id") int id) {
-    addressServe.delete(id);
+    lisitingServe.delete(id);
     ResponseEntity<Boolean> response = new ResponseEntity<Boolean>(true, HttpStatus.NO_CONTENT);
     return response;
   }
