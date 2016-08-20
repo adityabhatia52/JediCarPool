@@ -5,7 +5,8 @@ package com.practo.carpool.data.model;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
+
+import com.practo.carpool.data.entity.Source;
 
 /**
  * @author aditya
@@ -30,7 +31,7 @@ public class SourceModel implements Serializable {
 
   public SourceModel() {}
 
-  public SourceModel(String address, String nameOffice, List<ListingModel> listingsModel) {
+  public SourceModel(String address, String nameOffice) {
     this.address = address;
     this.nameOffice = nameOffice;
   }
@@ -91,5 +92,23 @@ public class SourceModel implements Serializable {
     this.nameOffice = nameOffice;
   }
 
+  // model to entity
+  public Source entityGet() {
+    Source sourceEntity = new Source();
+    sourceEntity.setAddress(getAddress());
+    sourceEntity.setNameOffice(getNameOffice());
+    if (new Integer(getId()) != null)
+      sourceEntity.setId(getId());
+    return sourceEntity;
+  }
+
+  // entity to model
+  public void entityPost(Source e) {
+    if (e != null) {
+      setNameOffice(e.getNameOffice());
+      setAddress(e.getAddress());
+      setId(e.getId());
+    }
+  }
 
 }

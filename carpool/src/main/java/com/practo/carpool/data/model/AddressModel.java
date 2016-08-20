@@ -7,6 +7,8 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
+import com.practo.carpool.data.entity.Address;
+
 /**
  * @author aditya
  *
@@ -45,8 +47,8 @@ public class AddressModel implements Serializable {
   private String sublocality;
 
   public AddressModel() {}
-  
-  public AddressModel(BigDecimal latitude,BigDecimal longitude){
+
+  public AddressModel(BigDecimal latitude, BigDecimal longitude) {
     this.latitude = latitude;
     this.longitude = longitude;
   }
@@ -171,4 +173,22 @@ public class AddressModel implements Serializable {
     this.sublocality = sublocality;
   }
 
+  // model to entity
+  public Address entityGet() {
+    Address addressEntity = new Address();
+    addressEntity.setLatitude(getLatitude());
+    addressEntity.setLongitude(getLongitude());
+    if (new Integer(getId()) != null)
+      addressEntity.setId(getId());
+    return addressEntity;
+  }
+
+  // entity to model
+  public void entityPost(Address addressEntity) {
+    if (addressEntity != null) {
+      setLongitude(addressEntity.getLongitude());
+      setLatitude(addressEntity.getLatitude());
+    }
+
+  }
 }

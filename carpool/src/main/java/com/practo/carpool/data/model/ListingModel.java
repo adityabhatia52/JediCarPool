@@ -8,6 +8,8 @@ import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
 
+import com.practo.carpool.data.entity.Listing;
+
 /**
  * @author aditya
  *
@@ -39,10 +41,10 @@ public class ListingModel implements Serializable {
 
   private VehicleModel vehicleModel;
 
-  public ListingModel(){};
-  
+  public ListingModel() {};
+
   public ListingModel(Timestamp departTime, int seatAvailable, SourceModel sourceModel,
-      UserModel userModel, VehicleModel vehicleModel,AddressModel addressModel) {
+      UserModel userModel, VehicleModel vehicleModel, AddressModel addressModel) {
     this.userModel = userModel;
     this.vehicleModel = vehicleModel;
     this.addressModel = addressModel;
@@ -50,8 +52,6 @@ public class ListingModel implements Serializable {
     this.sourceModel = sourceModel;
     this.departTime = departTime;
   }
-
-
 
   public int getId() {
     return this.id;
@@ -121,7 +121,7 @@ public class ListingModel implements Serializable {
     return this.addressModel;
   }
 
-  public void setAddress(AddressModel addressModel) {
+  public void setAddressModel(AddressModel addressModel) {
     this.addressModel = addressModel;
   }
 
@@ -148,5 +148,44 @@ public class ListingModel implements Serializable {
   public void setVehicleModel(VehicleModel vehicleModel) {
     this.vehicleModel = vehicleModel;
   }
+
+  // model to entity
+  public Listing entityGet() {
+    Listing ListingEntity = new Listing();
+    ListingEntity.setUser(this.getUserModel().entityGet());
+    ListingEntity.setVehicle(this.getVehicleModel().entityGet());
+    ListingEntity.setAddress(this.getAddressModel().entityGet());
+    ListingEntity.setSource(this.getSourceModel().entityGet());
+    ListingEntity.setSeatAvailable(getSeatAvailable());
+    ListingEntity.setDepartTime(getDepartTime());
+    if (new Integer(getId()) != null)
+      ListingEntity.setId(getId());
+    return ListingEntity;
+  }
+
+  // entity to model
+ public void entityPost(Listing listingEntity) {
+   if (listingEntity != null) {
+     
+     UserModel uModel = new UserModel();
+     uModel.entityPost(listingEntity.getUser());
+     setUserModel(uModel);
+     
+     VehicleModel vModel = new VehicleModel();
+     vModel.entityPost(listingEntity.getVehicle());
+     setVehicleModel(vModel);
+     
+     AddressModel aModel = new AddressModel();
+     aModel.entityPost(listingEntity.getAddress());
+     setAddressModel(aModel);
+     
+     SourceModel sModel = new SourceModel();
+     sModel.entityPost(listingEntity.getSource());
+     setSourceModel(sModel);
+     
+     setSeatAvailable(listingEntity.getSeatAvailable());
+     setDepartTime(listingEntity.getDepartTime());
+   }
+ }
 
 }

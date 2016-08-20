@@ -77,6 +77,7 @@ public class UserModel implements Serializable {
     this.name = name;
   }
 
+  //model to entity
   public User entityGet() {
     User userEntity = new User();
     userEntity.setEmail(getEmail());
@@ -87,6 +88,7 @@ public class UserModel implements Serializable {
     return userEntity;
   }
 
+  //entity to model
   public void entityPost(User e) {
     if (e != null) {
       setName(e.getName());

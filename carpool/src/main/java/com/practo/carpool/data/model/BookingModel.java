@@ -6,6 +6,8 @@ package com.practo.carpool.data.model;
 import java.io.Serializable;
 import java.util.Date;
 
+import com.practo.carpool.data.entity.Booking;
+
 /**
  * @author aditya
  *
@@ -91,5 +93,28 @@ public class BookingModel implements Serializable {
     this.userModel = userModel;
   }
 
+  // model to entity
+  public Booking entityGet() {
+    Booking BookingEntity = new Booking();
+    BookingEntity.setUser(this.getUserModel().entityGet());
+    BookingEntity.setListing(this.getListingModel().entityGet());
+    if (new Integer(getIdBooking()) != null)
+      BookingEntity.setIdBooking(getIdBooking());
+    return BookingEntity;
+  }
+
+  // entity to model
+  public void entityPost(Booking bookingEntity) {
+    if (bookingEntity != null) {
+
+      UserModel uModel = new UserModel();
+      uModel.entityPost(bookingEntity.getUser());
+      setUserModel(uModel);
+
+      ListingModel lModel = new ListingModel();
+      lModel.entityPost(bookingEntity.getListing());
+      setListingModel(lModel);
+    }
+  }
 
 }
