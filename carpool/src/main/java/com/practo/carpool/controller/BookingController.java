@@ -10,44 +10,49 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.practo.carpool.data.model.BookingModel;
+import com.practo.carpool.exceptions.NotFoundException;
 import com.practo.carpool.service.BookingService;
 
 @RestController
-@RequestMapping("/booking")
+@RequestMapping("/listing/{listing_id}/booking")
 public class BookingController {
 
   @Autowired
   private BookingService bookingServe;
 
   @RequestMapping(method = RequestMethod.GET)
-  public Iterable<BookingModel> get() {
-    return bookingServe.get();
+  public Iterable<BookingModel> get(@PathVariable("listing_id") int listId) {
+    return bookingServe.get(listId);
   }
 
   @RequestMapping(method = RequestMethod.POST)
-  public ResponseEntity<BookingModel> create(@RequestBody BookingModel um) {
+  public ResponseEntity<BookingModel> create(@PathVariable("listing_id") int listId,
+      @RequestBody BookingModel um) {
     BookingModel newUm = new BookingModel();
-    newUm = bookingServe.create(um);
+    newUm = bookingServe.create(listId, um);
     ResponseEntity<BookingModel> response =
         new ResponseEntity<BookingModel>(newUm, HttpStatus.CREATED);
     return response;
   }
 
   @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-  public BookingModel get(@PathVariable("id") int id) {
-    return bookingServe.get(id);
+  public BookingModel get(@PathVariable("listing_id") int listId, @PathVariable("id") int id)
+      throws NotFoundException {
+    return bookingServe.get(listId, id);
   }
 
-  /*
-   * @RequestMapping(method = RequestMethod.PUT) public ResponseEntity<bookingModel>
-   * update(@RequestBody bookingModel um, int id) { booking u = repository.save(booking);
-   * ResponseEntity<booking> response = new ResponseEntity<booking>(u, HttpStatus.OK); return
-   * response; }
-   */
+  @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
+  public ResponseEntity<BookingModel> update(@PathVariable("listing_id") int listId,
+      @PathVariable("id") int id, @RequestBody BookingModel booking) throws NotFoundException {
+    BookingModel aModel = bookingServe.update(listId, booking, id);
+    ResponseEntity<BookingModel> response = new ResponseEntity<BookingModel>(aModel, HttpStatus.OK);
+    return response;
+  }
 
   @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-  public ResponseEntity<Boolean> delete(@PathVariable("id") int id) {
-    bookingServe.delete(id);
+  public ResponseEntity<Boolean> delete(@PathVariable("listing_id") int listId,
+      @PathVariable("id") int id) throws NotFoundException {
+    bookingServe.delete(listId, id);
     ResponseEntity<Boolean> response = new ResponseEntity<Boolean>(true, HttpStatus.NO_CONTENT);
     return response;
   }
