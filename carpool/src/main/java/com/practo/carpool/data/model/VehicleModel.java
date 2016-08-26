@@ -1,9 +1,9 @@
 package com.practo.carpool.data.model;
 
 import java.io.Serializable;
-import java.util.Date;
 
 import com.practo.carpool.data.entity.Vehicle;
+import com.practo.carpool.exceptions.NotFoundException;
 
 public class VehicleModel implements Serializable {
 
@@ -11,17 +11,9 @@ public class VehicleModel implements Serializable {
 
   private int id;
 
-  private byte active;
-
   private int capacity;
 
-  private Date createdAt;
-
-  private Date deletedAt;
-
   private String model;
-
-  private Date modifiedAt;
 
   private String numberPlate;
 
@@ -45,14 +37,6 @@ public class VehicleModel implements Serializable {
     this.id = id;
   }
 
-  public byte getActive() {
-    return this.active;
-  }
-
-  public void setActive(byte active) {
-    this.active = active;
-  }
-
   public int getCapacity() {
     return this.capacity;
   }
@@ -61,21 +45,6 @@ public class VehicleModel implements Serializable {
     this.capacity = capacity;
   }
 
-  public Date getCreatedAt() {
-    return this.createdAt;
-  }
-
-  public void setCreatedAt(Date createdAt) {
-    this.createdAt = createdAt;
-  }
-
-  public Date getDeletedAt() {
-    return this.deletedAt;
-  }
-
-  public void setDeletedAt(Date deletedAt) {
-    this.deletedAt = deletedAt;
-  }
 
   public String getModel() {
     return this.model;
@@ -83,14 +52,6 @@ public class VehicleModel implements Serializable {
 
   public void setModel(String model) {
     this.model = model;
-  }
-
-  public Date getModifiedAt() {
-    return this.modifiedAt;
-  }
-
-  public void setModifiedAt(Date modifiedAt) {
-    this.modifiedAt = modifiedAt;
   }
 
   public String getNumberPlate() {
@@ -118,19 +79,28 @@ public class VehicleModel implements Serializable {
     vehicleEntity.setCapacity(getCapacity());
     if (new Integer(getId()) != null)
       vehicleEntity.setId(getId());
-    vehicleEntity.setUser(this.getUserModel().entityGet());
+    if (this.getUserModel() != null) {
+      vehicleEntity.setUser(this.getUserModel().entityGet());
+    }
     return vehicleEntity;
   }
 
   // entity to model
-  public void entityPost(Vehicle vehicleEntity) {
-    if (vehicleEntity != null) {
+  public void entityPost(Vehicle vehicleEntity) throws NotFoundException {
+    if (vehicleEntity != null && vehicleEntity.getDeletedAt()==null) {
+      setId(vehicleEntity.getId());
       setModel(vehicleEntity.getModel());
       setNumberPlate(vehicleEntity.getNumberPlate());
       setCapacity(vehicleEntity.getCapacity());
       UserModel userModel = new UserModel();
-      userModel.entityPost(vehicleEntity.getUser());
-      setUserModel(userModel);
+      try {
+        userModel.entityPost(vehicleEntity.getUser());
+        setUserModel(userModel);
+      } catch (NotFoundException e) {
+        e.printStackTrace();
+      }
+    } else {
+      throw new NotFoundException("Vehicle with given id doesn't exist");
     }
   }
 }

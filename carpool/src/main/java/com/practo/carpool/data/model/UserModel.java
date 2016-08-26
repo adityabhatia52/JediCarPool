@@ -3,6 +3,7 @@ package com.practo.carpool.data.model;
 import java.io.Serializable;
 
 import com.practo.carpool.data.entity.User;
+import com.practo.carpool.exceptions.NotFoundException;
 
 public class UserModel implements Serializable {
 
@@ -12,8 +13,6 @@ public class UserModel implements Serializable {
   private static final long serialVersionUID = 1L;
 
   private int id;
-
-  private byte active;
 
   private String email;
 
@@ -29,9 +28,8 @@ public class UserModel implements Serializable {
     this.email = email;
   }
 
-  public UserModel(int id, byte active, String email, String mobile, String name) {
+  public UserModel(int id, String email, String mobile, String name) {
     this.id = id;
-    this.active = active;
     this.email = email;
     this.mobile = mobile;
     this.name = name;
@@ -43,14 +41,6 @@ public class UserModel implements Serializable {
 
   public void setId(int id) {
     this.id = id;
-  }
-
-  public byte getActive() {
-    return this.active;
-  }
-
-  public void setActive(byte active) {
-    this.active = active;
   }
 
   public String getEmail() {
@@ -77,7 +67,7 @@ public class UserModel implements Serializable {
     this.name = name;
   }
 
-  //model to entity
+  // model to entity
   public User entityGet() {
     User userEntity = new User();
     userEntity.setEmail(getEmail());
@@ -88,13 +78,15 @@ public class UserModel implements Serializable {
     return userEntity;
   }
 
-  //entity to model
-  public void entityPost(User e) {
-    if (e != null) {
+  // entity to model
+  public void entityPost(User e) throws NotFoundException {
+    if (e != null && e.getDeletedAt() == null) {
       setName(e.getName());
       setEmail(e.getEmail());
       setMobile(e.getMobile());
       setId(e.getId());
+    } else {
+      throw new NotFoundException("User with given id doesn't exist");
     }
   }
 }

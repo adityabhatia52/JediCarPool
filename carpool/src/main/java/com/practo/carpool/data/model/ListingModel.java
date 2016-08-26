@@ -5,10 +5,9 @@ package com.practo.carpool.data.model;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
-import java.util.Date;
-import java.util.List;
 
 import com.practo.carpool.data.entity.Listing;
+import com.practo.carpool.exceptions.NotFoundException;
 
 /**
  * @author aditya
@@ -21,17 +20,9 @@ public class ListingModel implements Serializable {
 
   private byte availability;
 
-  private Date createdAt;
-
-  private Date deletedAt;
-
   private Timestamp departTime;
 
-  private Date modifiedAt;
-
   private int seatAvailable;
-
-  private List<BookingModel> bookingsModel;
 
   private AddressModel addressModel;
 
@@ -69,22 +60,6 @@ public class ListingModel implements Serializable {
     this.availability = availability;
   }
 
-  public Date getCreatedAt() {
-    return this.createdAt;
-  }
-
-  public void setCreatedAt(Date createdAt) {
-    this.createdAt = createdAt;
-  }
-
-  public Date getDeletedAt() {
-    return this.deletedAt;
-  }
-
-  public void setDeletedAt(Date deletedAt) {
-    this.deletedAt = deletedAt;
-  }
-
   public Timestamp getDepartTime() {
     return this.departTime;
   }
@@ -93,28 +68,12 @@ public class ListingModel implements Serializable {
     this.departTime = departTime;
   }
 
-  public Date getModifiedAt() {
-    return this.modifiedAt;
-  }
-
-  public void setModifiedAt(Date modifiedAt) {
-    this.modifiedAt = modifiedAt;
-  }
-
   public int getSeatAvailable() {
     return this.seatAvailable;
   }
 
   public void setSeatAvailable(int seatAvailable) {
     this.seatAvailable = seatAvailable;
-  }
-
-  public List<BookingModel> getBookings() {
-    return this.bookingsModel;
-  }
-
-  public void setBookings(List<BookingModel> bookings) {
-    this.bookingsModel = bookings;
   }
 
   public AddressModel getAddressModel() {
@@ -152,40 +111,67 @@ public class ListingModel implements Serializable {
   // model to entity
   public Listing entityGet() {
     Listing ListingEntity = new Listing();
-    ListingEntity.setUser(this.getUserModel().entityGet());
-    ListingEntity.setVehicle(this.getVehicleModel().entityGet());
-    ListingEntity.setAddress(this.getAddressModel().entityGet());
-    ListingEntity.setSource(this.getSourceModel().entityGet());
+    if (this.getUserModel() != null) {
+      ListingEntity.setUser(this.getUserModel().entityGet());
+    }
+    if (this.getVehicleModel() != null) {
+      ListingEntity.setVehicle(this.getVehicleModel().entityGet());
+    }
+    if (this.getAddressModel() != null) {
+      ListingEntity.setAddress(this.getAddressModel().entityGet());
+    }
+    if (this.getSourceModel() != null) {
+      ListingEntity.setSource(this.getSourceModel().entityGet());
+    }
     ListingEntity.setSeatAvailable(getSeatAvailable());
     ListingEntity.setDepartTime(getDepartTime());
+    ListingEntity.setAvailability(getAvailability());
     if (new Integer(getId()) != null)
       ListingEntity.setId(getId());
     return ListingEntity;
   }
 
   // entity to model
- public void entityPost(Listing listingEntity) {
-   if (listingEntity != null) {
-     
-     UserModel uModel = new UserModel();
-     uModel.entityPost(listingEntity.getUser());
-     setUserModel(uModel);
-     
-     VehicleModel vModel = new VehicleModel();
-     vModel.entityPost(listingEntity.getVehicle());
-     setVehicleModel(vModel);
-     
-     AddressModel aModel = new AddressModel();
-     aModel.entityPost(listingEntity.getAddress());
-     setAddressModel(aModel);
-     
-     SourceModel sModel = new SourceModel();
-     sModel.entityPost(listingEntity.getSource());
-     setSourceModel(sModel);
-     
-     setSeatAvailable(listingEntity.getSeatAvailable());
-     setDepartTime(listingEntity.getDepartTime());
-   }
- }
+  public void entityPost(Listing listingEntity) throws NotFoundException {
+    if (listingEntity != null && listingEntity.getDeletedAt() == null) {
+
+      UserModel uModel = new UserModel();
+      try {
+        uModel.entityPost(listingEntity.getUser());
+        setUserModel(uModel);
+      } catch (NotFoundException e) {
+        e.printStackTrace();
+      }
+
+      VehicleModel vModel = new VehicleModel();
+      try {
+        vModel.entityPost(listingEntity.getVehicle());
+        setVehicleModel(vModel);
+      } catch (NotFoundException e) {
+        e.printStackTrace();
+      }
+
+      AddressModel aModel = new AddressModel();
+      try {
+        aModel.entityPost(listingEntity.getAddress());
+        setAddressModel(aModel);
+      } catch (NotFoundException e) {
+        e.printStackTrace();
+      }
+      SourceModel sModel = new SourceModel();
+      try {
+        sModel.entityPost(listingEntity.getSource());
+        setSourceModel(sModel);
+      } catch (NotFoundException e) {
+        e.printStackTrace();
+      }
+      setAvailability(listingEntity.getAvailability());
+      setSeatAvailable(listingEntity.getSeatAvailable());
+      setDepartTime(listingEntity.getDepartTime());
+      setId(listingEntity.getId());
+    } else {
+      throw new NotFoundException("Listing with given id doesn't exist");
+    }
+  }
 
 }

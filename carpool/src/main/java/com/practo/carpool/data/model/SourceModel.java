@@ -4,9 +4,9 @@
 package com.practo.carpool.data.model;
 
 import java.io.Serializable;
-import java.util.Date;
 
 import com.practo.carpool.data.entity.Source;
+import com.practo.carpool.exceptions.NotFoundException;
 
 /**
  * @author aditya
@@ -17,15 +17,7 @@ public class SourceModel implements Serializable {
 
   private int id;
 
-  private byte active;
-
   private String address;
-
-  private Date createdAt;
-
-  private Date deletedAt;
-
-  private Date modifiedAt;
 
   private String nameOffice;
 
@@ -44,44 +36,12 @@ public class SourceModel implements Serializable {
     this.id = id;
   }
 
-  public byte getActive() {
-    return this.active;
-  }
-
-  public void setActive(byte active) {
-    this.active = active;
-  }
-
   public String getAddress() {
     return this.address;
   }
 
   public void setAddress(String address) {
     this.address = address;
-  }
-
-  public Date getCreatedAt() {
-    return this.createdAt;
-  }
-
-  public void setCreatedAt(Date createdAt) {
-    this.createdAt = createdAt;
-  }
-
-  public Date getDeletedAt() {
-    return this.deletedAt;
-  }
-
-  public void setDeletedAt(Date deletedAt) {
-    this.deletedAt = deletedAt;
-  }
-
-  public Date getModifiedAt() {
-    return this.modifiedAt;
-  }
-
-  public void setModifiedAt(Date modifiedAt) {
-    this.modifiedAt = modifiedAt;
   }
 
   public String getNameOffice() {
@@ -103,11 +63,15 @@ public class SourceModel implements Serializable {
   }
 
   // entity to model
-  public void entityPost(Source e) {
-    if (e != null) {
+  public void entityPost(Source e) throws NotFoundException {
+    if (e != null && e.getDeletedAt() == null) {
       setNameOffice(e.getNameOffice());
       setAddress(e.getAddress());
       setId(e.getId());
+    }
+    else
+    {
+      throw new NotFoundException("Source with given id doesn't exist");
     }
   }
 
