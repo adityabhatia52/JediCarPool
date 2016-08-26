@@ -4,9 +4,9 @@
 package com.practo.carpool.data.model;
 
 import java.io.Serializable;
-import java.util.Date;
 
 import com.practo.carpool.data.entity.Booking;
+import com.practo.carpool.exceptions.NotFoundException;
 
 /**
  * @author aditya
@@ -16,14 +16,6 @@ public class BookingModel implements Serializable {
   private static final long serialVersionUID = 1L;
 
   private int idBooking;
-
-  private byte active;
-
-  private Date createdAt;
-
-  private Date deletedAt;
-
-  private Date modifiedAt;
 
   private ListingModel listingModel;
 
@@ -45,38 +37,6 @@ public class BookingModel implements Serializable {
     this.idBooking = idBooking;
   }
 
-  public byte getActive() {
-    return this.active;
-  }
-
-  public void setActive(byte active) {
-    this.active = active;
-  }
-
-  public Date getCreatedAt() {
-    return this.createdAt;
-  }
-
-  public void setCreatedAt(Date createdAt) {
-    this.createdAt = createdAt;
-  }
-
-  public Date getDeletedAt() {
-    return this.deletedAt;
-  }
-
-  public void setDeletedAt(Date deletedAt) {
-    this.deletedAt = deletedAt;
-  }
-
-  public Date getModifiedAt() {
-    return this.modifiedAt;
-  }
-
-  public void setModifiedAt(Date modifiedAt) {
-    this.modifiedAt = modifiedAt;
-  }
-
   public ListingModel getListingModel() {
     return this.listingModel;
   }
@@ -96,24 +56,41 @@ public class BookingModel implements Serializable {
   // model to entity
   public Booking entityGet() {
     Booking BookingEntity = new Booking();
-    BookingEntity.setUser(this.getUserModel().entityGet());
-    BookingEntity.setListing(this.getListingModel().entityGet());
+    if (this.getUserModel() != null) {
+      BookingEntity.setUser(this.getUserModel().entityGet());
+    }
+    if (this.getListingModel() != null) {
+      BookingEntity.setListing(this.getListingModel().entityGet());
+    }
     if (new Integer(getIdBooking()) != null)
       BookingEntity.setIdBooking(getIdBooking());
     return BookingEntity;
   }
 
   // entity to model
-  public void entityPost(Booking bookingEntity) {
-    if (bookingEntity != null) {
+  public void entityPost(Booking bookingEntity) throws NotFoundException {
 
+    if (bookingEntity != null && bookingEntity.getDeletedAt() == null) {
       UserModel uModel = new UserModel();
-      uModel.entityPost(bookingEntity.getUser());
-      setUserModel(uModel);
+      try {
+        uModel.entityPost(bookingEntity.getUser());
+        setUserModel(uModel);
+      } catch (NotFoundException e) {
+        e.printStackTrace();
+      }
 
       ListingModel lModel = new ListingModel();
-      lModel.entityPost(bookingEntity.getListing());
-      setListingModel(lModel);
+      try {
+        lModel.entityPost(bookingEntity.getListing());
+        setListingModel(lModel);
+      } catch (NotFoundException e) {
+        e.printStackTrace();
+      }
+      
+      setIdBooking(bookingEntity.getIdBooking());
+
+    } else {
+      throw new NotFoundException("Booking with given id doesn't exist");
     }
   }
 
