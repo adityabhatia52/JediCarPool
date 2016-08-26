@@ -39,7 +39,7 @@ public class AddressModel implements Serializable {
   }
 
   public BigDecimal getLatitude() {
-    return latitude;
+    return this.latitude;
   }
 
   public void setLatitude(BigDecimal latitude) {
@@ -47,7 +47,7 @@ public class AddressModel implements Serializable {
   }
 
   public BigDecimal getLongitude() {
-    return longitude;
+    return this.longitude;
   }
 
   public void setLongitude(BigDecimal longitude) {

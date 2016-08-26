@@ -62,9 +62,9 @@ public class BookingServiceImplement implements BookingService {
     Booking entity = new Booking();
     entity = bookingModel.entityGet();
     try {
+      bookingModel.entityPost(entity);
       entity.setCreatedAt(new Date());
       bookingRepo.save(entity);
-      bookingModel.entityPost(entity);
     } catch (NotFoundException e) {
       e.printStackTrace();
     }

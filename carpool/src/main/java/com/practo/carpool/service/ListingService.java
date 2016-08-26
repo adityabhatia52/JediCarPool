@@ -5,6 +5,7 @@ package com.practo.carpool.service;
 
 import org.springframework.data.domain.Pageable;
 
+import com.practo.carpool.data.filter.ListingFilter;
 import com.practo.carpool.data.model.ListingModel;
 import com.practo.carpool.exceptions.NotFoundException;
 
@@ -23,5 +24,7 @@ public interface ListingService {
   public ListingModel update(ListingModel addModel, int id) throws NotFoundException;
 
   public void delete(int id) throws NotFoundException;
+  
+  public Iterable<ListingModel> search(ListingFilter filterObj, Pageable pageable) throws NotFoundException;
 
 }

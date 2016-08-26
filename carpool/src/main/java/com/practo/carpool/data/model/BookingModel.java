@@ -69,12 +69,12 @@ public class BookingModel implements Serializable {
 
   // entity to model
   public void entityPost(Booking bookingEntity) throws NotFoundException {
-
     if (bookingEntity != null && bookingEntity.getDeletedAt() == null) {
+      this.setIdBooking(bookingEntity.getIdBooking());
       UserModel uModel = new UserModel();
       try {
         uModel.entityPost(bookingEntity.getUser());
-        setUserModel(uModel);
+        this.setUserModel(uModel);
       } catch (NotFoundException e) {
         e.printStackTrace();
       }
@@ -86,9 +86,6 @@ public class BookingModel implements Serializable {
       } catch (NotFoundException e) {
         e.printStackTrace();
       }
-      
-      setIdBooking(bookingEntity.getIdBooking());
-
     } else {
       throw new NotFoundException("Booking with given id doesn't exist");
     }

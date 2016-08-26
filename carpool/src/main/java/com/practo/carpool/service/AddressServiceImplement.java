@@ -21,7 +21,6 @@ import com.practo.carpool.repository.AddressRepository;
  *
  */
 @Service
-@Transactional
 public class AddressServiceImplement implements AddressService {
   @Autowired
   private AddressRepository addressRepo;
@@ -51,14 +50,15 @@ public class AddressServiceImplement implements AddressService {
     addModel.entityPost(entity);
     return addModel;
   }
-
+ 
   @Override
+  @Transactional
   public AddressModel create(AddressModel addModel) {
     Address entity = new Address();
-    entity.setCreatedAt(new Date());
     try {
-      addressRepo.save(entity);
       entity = addModel.entityGet();
+      entity.setCreatedAt(new Date());
+      addressRepo.save(entity); 
     } catch (NotFoundException e) {
       e.printStackTrace();
     }
@@ -66,6 +66,7 @@ public class AddressServiceImplement implements AddressService {
   }
 
   @Override
+  @Transactional
   public AddressModel update(AddressModel addModel, int id) throws NotFoundException {
     if (addressRepo.findOne(id).getDeletedAt() == null) {
       addModel.setId(id);

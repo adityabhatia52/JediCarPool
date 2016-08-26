@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.practo.carpool.data.entity.Listing;
+import com.practo.carpool.data.filter.ListingFilter;
 import com.practo.carpool.data.model.ListingModel;
 import com.practo.carpool.exceptions.NotFoundException;
 import com.practo.carpool.repository.ListingRepository;
@@ -27,6 +28,18 @@ import com.practo.carpool.repository.ListingRepository;
 public class ListingServiceImplement implements ListingService {
   @Autowired
   private ListingRepository listingRepo;
+
+  public Iterable<ListingModel> search(ListingFilter filterObj, Pageable pageable)
+      throws NotFoundException {
+    Iterable<Listing> entities = listingRepo.filter(filterObj, pageable);
+    ArrayList<ListingModel> listings = new ArrayList<ListingModel>();
+    for (Listing entity : entities) {
+      ListingModel listingModel = new ListingModel();
+      listingModel.entityPost(entity);
+      listings.add(listingModel);
+    }
+    return listings;
+  }
 
   @Override
   public Iterable<ListingModel> get(Pageable pageable) {

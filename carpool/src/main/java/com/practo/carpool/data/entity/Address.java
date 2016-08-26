@@ -102,14 +102,12 @@ public class Address implements Serializable {
 	public Listing addListing(Listing listing) {
 		getListings().add(listing);
 		listing.setAddress(this);
-
 		return listing;
 	}
 
 	public Listing removeListing(Listing listing) {
 		getListings().remove(listing);
 		listing.setAddress(null);
-
 		return listing;
 	}
 

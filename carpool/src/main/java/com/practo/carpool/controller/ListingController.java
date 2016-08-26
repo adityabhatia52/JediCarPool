@@ -1,6 +1,7 @@
 package com.practo.carpool.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.practo.carpool.data.filter.ListingFilter;
 import com.practo.carpool.data.model.ListingModel;
 import com.practo.carpool.exceptions.NotFoundException;
 import com.practo.carpool.service.ListingService;
@@ -18,8 +20,14 @@ import com.practo.carpool.service.ListingService;
 @RequestMapping("/listing")
 public class ListingController {
 
+  private int itemsPerPage = 4;
+
   @Autowired
   private ListingService listingServe;
+
+  public static Pageable updatePageable(final Pageable source, final int size) {
+    return new PageRequest(source.getPageNumber(), size, source.getSort());
+  }
 
   @RequestMapping(method = RequestMethod.GET)
   public Iterable<ListingModel> get(Pageable pageable) {
@@ -38,6 +46,12 @@ public class ListingController {
   @RequestMapping(value = "/{id}", method = RequestMethod.GET)
   public ListingModel get(@PathVariable("id") int id) throws NotFoundException {
     return listingServe.get(id);
+  }
+
+  @RequestMapping(value = "/search", method = RequestMethod.GET)
+  public Iterable<ListingModel> search(ListingFilter filter, Pageable pageable)
+      throws NotFoundException {
+    return listingServe.search(filter, updatePageable(pageable, itemsPerPage));
   }
 
   @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
