@@ -18,10 +18,8 @@ public class Booking implements Serializable {
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private int idBooking;
 
-	private byte active;
-
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name="created_at")
+	@Column(name="created_at",nullable = false, updatable = false)
 	private Date createdAt;
 
 	@Temporal(TemporalType.TIMESTAMP)
@@ -32,15 +30,15 @@ public class Booking implements Serializable {
 	@Column(name="modified_at")
 	private Date modifiedAt;
 
-	//bi-directional many-to-one association to Listing
-	@ManyToOne
-	@JoinColumn(name="idListing")
-	private Listing listing;
-
 	//bi-directional many-to-one association to User
 	@ManyToOne
 	@JoinColumn(name="idBooker")
 	private User user;
+
+	//bi-directional many-to-one association to Listing
+	@ManyToOne
+	@JoinColumn(name="idListing")
+	private Listing listing;
 
 	public Booking() {
 	}
@@ -51,14 +49,6 @@ public class Booking implements Serializable {
 
 	public void setIdBooking(int idBooking) {
 		this.idBooking = idBooking;
-	}
-
-	public byte getActive() {
-		return this.active;
-	}
-
-	public void setActive(byte active) {
-		this.active = active;
 	}
 
 	public Date getCreatedAt() {
@@ -85,20 +75,20 @@ public class Booking implements Serializable {
 		this.modifiedAt = modifiedAt;
 	}
 
-	public Listing getListing() {
-		return this.listing;
-	}
-
-	public void setListing(Listing listing) {
-		this.listing = listing;
-	}
-
 	public User getUser() {
 		return this.user;
 	}
 
 	public void setUser(User user) {
 		this.user = user;
+	}
+
+	public Listing getListing() {
+		return this.listing;
+	}
+
+	public void setListing(Listing listing) {
+		this.listing = listing;
 	}
 
 }

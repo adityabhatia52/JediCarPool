@@ -19,12 +19,10 @@ public class Source implements Serializable {
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private int id;
 
-	private byte active;
-
 	private String address;
 
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name="created_at")
+	@Column(name="created_at",nullable = false, updatable = false)
 	private Date createdAt;
 
 	@Temporal(TemporalType.TIMESTAMP)
@@ -50,14 +48,6 @@ public class Source implements Serializable {
 
 	public void setId(int id) {
 		this.id = id;
-	}
-
-	public byte getActive() {
-		return this.active;
-	}
-
-	public void setActive(byte active) {
-		this.active = active;
 	}
 
 	public String getAddress() {
