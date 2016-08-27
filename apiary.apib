@@ -1,0 +1,104 @@
+FORMAT: 1A
+HOST: http://polls.apiblueprint.org/
+
+# Car Pool
+
+Car Pool is an API for a car pooling webapp for Practo Employees
+
+## Listings Collection [/listings/{id_listing}]
+
+### List All Listings [GET]
+
++ Parameters
+    + id_listing:`1` (number,optional) - ID of the Listing in the form of an integer
+
++ Response 200 (application/json)
+
+        [
+            {   
+                "id_listing": 1,
+                "id_lister": 1,
+                "id_vehicle": 1,
+                "depart_time": "2015-08-05T08:40:51.620Z",
+                "id_source": 1,
+                "id_destination": 1,
+                "seat_available": 2,
+                "availability": "True"
+            }
+        ]
+
+### Create a New Listing [POST]
+
++ Request (application/json)
+
+        {   
+                "id_listing": 1,
+                "id_lister": 1,
+                "id_vehicle": 1,
+                "depart_time": "2015-08-05T08:40:51.620Z",
+                "id_source": 1,
+                "id_destination": 1,
+                "seat_available": 2,
+                "availability": "True"
+        }
+
++ Response 201 (application/json)
+
+    + Headers
+    
+            Location: /listings/2
+
+    + Body
+        
+            {
+                "id_listing": 1,
+                "id_lister": 1,
+                "id_vehicle": 1,
+                "depart_time": "2015-08-05T08:40:51.620Z",
+                "id_source": 1,
+                "id_destination": 1,
+                "seat_available": 2,
+                "availability": "True"
+            }
+
+
+### Update a Listing [PUT]
+
++ Parameters
+    + id_listing (number) - ID of the Listing in the form of an integer
+
++ Request (application/json)
+
+        {
+            "id_listing": 2,
+            "id_lister": 1,
+            "id_vehicle": 3,
+            "depart_time": "2015-08-05T08:40:51.620Z",
+            "id_source": 1,
+            "id_destination": 1,
+            "seat_available": 2,
+            "availability": "True"
+        }
+
++ Response 200 (application/json)
+
+    + Headers
+
+            Location: /listings/2
+
+    + Body
+
+            {
+                "id_listing": 2,
+                "id_lister": 1,
+                "id_vehicle": 3,
+                "depart_time": "2015-08-05T08:40:51.620Z",
+                "id_source": 1,
+                "id_destination": 1,
+                "seat_available": 2,
+                "availability": "True"
+            }
+
+### Delete a listing [DELETE]
+
++ Response 204
