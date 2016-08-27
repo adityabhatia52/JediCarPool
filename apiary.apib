@@ -5,9 +5,9 @@ HOST: http://polls.apiblueprint.org/
 
 Car Pool is an API for a car pooling webapp for Practo Employees
 
-## Listings Collection [/listings/{id_listing}]
+## Listings Collection [/listing/{id_listing}]
 
-### List All Listings [GET]
+### List any one Listing [GET]
 
 + Parameters
     + id_listing:`1` (number,optional) - ID of the Listing in the form of an integer
@@ -16,14 +16,39 @@ Car Pool is an API for a car pooling webapp for Practo Employees
 
         [
             {   
-                "id_listing": 1,
-                "id_lister": 1,
-                "id_vehicle": 1,
-                "depart_time": "2015-08-05T08:40:51.620Z",
-                "id_source": 1,
-                "id_destination": 1,
-                "seat_available": 2,
-                "availability": "True"
+                "id": 1,
+                "availability": 1,
+                "departTime": 1472208258000,
+                "seatAvailable": 4,
+                  "addressModel": {
+                    "id": 2,
+                    "latitude": 12.5818,
+                    "longitude": 77.3537,
+                    "destination": "JP Nagar"
+                  },
+                 "sourceModel": {
+                    "id": 2,
+                    "address": "Goplan Mall",
+                    "nameOffice": "Practo Venus"
+                  },
+                  "userModel": {
+                    "id": 3,
+                    "email": "ankit.singh12@practo.com",
+                    "mobile": "9912381899",
+                    "name": "Ankit214"
+                 },
+                 "vehicleModel": {
+                     "id": 3,
+                     "capacity": 4,
+                     "model": "Honda",
+                     "numberPlate": "UP16F8598",
+                     "userModel": {
+                          "id": 2,
+                          "email": "prashant.baisla@practo.com",
+                          "mobile": "9912381798",
+                          "name": "Prashant"
+                    }
+                }
             }
         ]
 
@@ -31,34 +56,69 @@ Car Pool is an API for a car pooling webapp for Practo Employees
 
 + Request (application/json)
 
-        {   
-                "id_listing": 1,
-                "id_lister": 1,
-                "id_vehicle": 1,
-                "depart_time": "2015-08-05T08:40:51.620Z",
-                "id_source": 1,
-                "id_destination": 1,
-                "seat_available": 2,
-                "availability": "True"
+        {
+            "userModel":{
+                "id":1
+            },
+            "addressModel":{
+                "id":2
+            },
+            "depart_time":"201608250730",
+            "seatAvailable": 3,
+            "sourceModel":{
+                "id":2
+            },
+            "vehicleModel":{
+                "id":3,
+                "userModel":{
+                    "id":1
+                }
+            }
         }
+
 
 + Response 201 (application/json)
 
     + Headers
     
-            Location: /listings/2
+            Location: /listing/1
 
     + Body
         
             {
-                "id_listing": 1,
-                "id_lister": 1,
-                "id_vehicle": 1,
-                "depart_time": "2015-08-05T08:40:51.620Z",
-                "id_source": 1,
-                "id_destination": 1,
-                "seat_available": 2,
-                "availability": "True"
+                "id": 12,
+                "availability": 1,
+                "departTime": 1472314833000,
+                "seatAvailable": 2,
+                "addressModel": {
+                    "id": 3,
+                    "latitude": 14.58,
+                    "longitude": 87.3537,
+                    "destination": "Bannerghata Road"
+                },
+                "sourceModel": {
+                    "id": 2,
+                    "address": "Practo Goplan",
+                    "nameOffice": "Practo Venus"
+               },
+              "userModel": {
+                  "id": 4,
+                    "email": "poorna@practo.com",
+                    "mobile": "9912381801",
+                    "name": "Poorna"
+              },
+              "vehicleModel": {
+                "id": 3,
+                "capacity": 4,
+                "model": "Honda",
+                "numberPlate": "UP16F8598",
+                "userModel": {
+                  "id": 2,
+                  "email": "prashant.baisla@practo.com",
+                  "mobile": "9912381798",
+                  "name": "Prashant"
+                }
+              }
             }
 
 
@@ -70,35 +130,73 @@ Car Pool is an API for a car pooling webapp for Practo Employees
 + Request (application/json)
 
         {
-            "id_listing": 2,
-            "id_lister": 1,
-            "id_vehicle": 3,
-            "depart_time": "2015-08-05T08:40:51.620Z",
-            "id_source": 1,
-            "id_destination": 1,
-            "seat_available": 2,
-            "availability": "True"
+            "userModel":{
+                "id":2
+            },
+            "addressModel":{
+                "id":2
+            },
+            "departTime":"201608250730",
+            "seatAvailable": 3,
+            "sourceModel":{
+                "id":2
+            },
+            "vehicleModel":{
+                "id":3,
+                "userModel":{
+                    "id":1
+                }
+            }
         }
 
 + Response 200 (application/json)
 
     + Headers
 
-            Location: /listings/2
+            Location: /listing/2
 
-    + Body
+ + Body
 
             {
-                "id_listing": 2,
-                "id_lister": 1,
-                "id_vehicle": 3,
-                "depart_time": "2015-08-05T08:40:51.620Z",
-                "id_source": 1,
-                "id_destination": 1,
-                "seat_available": 2,
-                "availability": "True"
+                "id": 12,
+                "availability": 1,
+                "departTime": 1472314833000,
+                "seatAvailable": 2,
+                "addressModel": {
+                    "id": 3,
+                    "latitude": 14.58,
+                    "longitude": 87.3537,
+                    "destination": "Bannerghata Road"
+                },
+                "sourceModel": {
+                    "id": 2,
+                    "address": "Practo Goplan",
+                    "nameOffice": "Practo Venus"
+               },
+              "userModel": {
+                  "id": 2,
+                    "email": "poorna@practo.com",
+                    "mobile": "9912381801",
+                    "name": "Poorna"
+              },
+              "vehicleModel": {
+                "id": 3,
+                "capacity": 4,
+                "model": "Honda",
+                "numberPlate": "UP16F8598",
+                "userModel": {
+                  "id": 2,
+                  "email": "prashant.baisla@practo.com",
+                  "mobile": "9912381798",
+                  "name": "Prashant"
+                }
+              }
             }
 
 ### Delete a listing [DELETE]
 
 + Response 204
+
+    + Headers
+    
+            Location: /listing/1
