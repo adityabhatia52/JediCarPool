@@ -1,5 +1,4 @@
 language: java
 jdk:
   - oraclejdk8
-script: cd carpool
-mvn clean install
+script: script.sh
