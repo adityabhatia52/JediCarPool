@@ -31,7 +31,7 @@ public class AddressRepository implements CrudRepository<Address, Integer> {
   public Address findOne(Integer id) throws NotFoundException {
     try {
       return hibTemp.load(Address.class, id);
-    } catch (DataAccessException e) {
+    } catch (DataAccessException exception) {
       throw new NotFoundException("No Address found for the given Id");
     }
   }
@@ -43,7 +43,7 @@ public class AddressRepository implements CrudRepository<Address, Integer> {
     try {
       hibTemp.merge(entity);
       return entity;
-    } catch (DataAccessException e) {
+    } catch (DataAccessException exception) {
       throw new NotFoundException("No Address found for the given Id");
     }
   }

@@ -38,7 +38,7 @@ public class BookingServiceImplement implements BookingService {
       try {
         u.entityPost(entity);
         ulist.add(u);
-      } catch (NotFoundException e) {
+      } catch (NotFoundException exception) {
         // Nothing needs to be done on accessing an deleted entity because the deleted entity won't
         // be added to the list
       }
@@ -65,8 +65,8 @@ public class BookingServiceImplement implements BookingService {
       bookingModel.entityPost(entity);
       entity.setCreatedAt(new Date());
       bookingRepo.save(entity);
-    } catch (NotFoundException e) {
-      e.printStackTrace();
+    } catch (NotFoundException exception) {
+      exception.printStackTrace();
     }
     return bookingModel;
   }
@@ -86,8 +86,8 @@ public class BookingServiceImplement implements BookingService {
       try {
         bookingRepo.save(entity);
         bookingModel.entityPost(entity);
-      } catch (NotFoundException e) {
-        e.printStackTrace();
+      } catch (NotFoundException exception) {
+        exception.printStackTrace();
       }
       return bookingModel;
     } else {
@@ -100,7 +100,7 @@ public class BookingServiceImplement implements BookingService {
     try {
       Booking bookingEntity = bookingRepo.findOne(id);
       bookingEntity.setDeletedAt(new Date());
-    } catch (ObjectNotFoundException e) {
+    } catch (ObjectNotFoundException exception) {
       throw new NotFoundException("Booking with the given id doesn't exist");
     }
   }

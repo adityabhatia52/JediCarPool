@@ -30,7 +30,7 @@ public class VehicleServiceImplement implements VehicleService {
       try {
         u.entityPost(entity);
         ulist.add(u);
-      } catch (NotFoundException e) {
+      } catch (NotFoundException exception) {
       }
       // The try-catch block is triggered when accessing a deleted entity. Nothing needs to be done
       // on accessing a deleted entity
@@ -57,8 +57,8 @@ public class VehicleServiceImplement implements VehicleService {
     try {
       VehicleRepo.save(entity);
       VehicleModel.entityPost(entity);
-    } catch (NotFoundException e) {
-      e.printStackTrace();
+    } catch (NotFoundException exception) {
+      exception.printStackTrace();
     }
     return VehicleModel;
   }
@@ -77,8 +77,8 @@ public class VehicleServiceImplement implements VehicleService {
       try {
         entity = VehicleRepo.save(entity);
         VehicleModel.entityPost(entity);
-      } catch (NotFoundException e) {
-        e.printStackTrace();
+      } catch (NotFoundException exception) {
+        exception.printStackTrace();
       }
       return VehicleModel;
     } else {
@@ -91,7 +91,7 @@ public class VehicleServiceImplement implements VehicleService {
     try {
       Vehicle vehicleEntity = VehicleRepo.findOne(id);
       vehicleEntity.setDeletedAt(new Date());
-    } catch (ObjectNotFoundException e) {
+    } catch (ObjectNotFoundException exception) {
       throw new NotFoundException("Vehicle with the given id doesn't exist");
     }
   }

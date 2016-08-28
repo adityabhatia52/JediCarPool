@@ -50,7 +50,7 @@ public class ListingServiceImplement implements ListingService {
       try {
         u.entityPost(listingEntity);
         ulist.add(u);
-      } catch (NotFoundException e) {
+      } catch (NotFoundException exception) {
         // Nothing needs to be done on accessing an deleted entity because the deleted entity won't
         // be added to the list
       }
@@ -76,8 +76,8 @@ public class ListingServiceImplement implements ListingService {
     try {
       listingEntity = listingRepo.save(listingEntity);
       listingModel.entityPost(listingEntity);
-    } catch (NotFoundException e) {
-      e.printStackTrace();
+    } catch (NotFoundException exception) {
+      exception.printStackTrace();
     }
     return listingModel;
   }
@@ -92,8 +92,8 @@ public class ListingServiceImplement implements ListingService {
       try {
         listingRepo.save(listingEntity);
         listingModel.entityPost(listingEntity);
-      } catch (NotFoundException e) {
-        e.printStackTrace();
+      } catch (NotFoundException exception) {
+        exception.printStackTrace();
       }
       return listingModel;
     } else {
@@ -106,7 +106,7 @@ public class ListingServiceImplement implements ListingService {
     try {
       Listing listingEntity = listingRepo.findOne(id);
       listingEntity.setDeletedAt(new Date());
-    } catch (ObjectNotFoundException e) {
+    } catch (ObjectNotFoundException exception) {
       throw new NotFoundException("Listing with the given id doesn't exist");
     }
   }

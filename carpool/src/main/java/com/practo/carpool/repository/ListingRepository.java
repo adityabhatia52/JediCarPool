@@ -33,7 +33,7 @@ public class ListingRepository implements CrudRepository<Listing, Integer> {
   public Listing findOne(Integer id) throws NotFoundException {
     try {
       return hibTemp.load(Listing.class, id);
-    } catch (DataAccessException e) {
+    } catch (DataAccessException exception) {
       throw new NotFoundException("No Listing found for the given Id");
     }
   }
@@ -45,7 +45,7 @@ public class ListingRepository implements CrudRepository<Listing, Integer> {
     try {
       hibTemp.merge(entity);
       return entity;
-    } catch (DataAccessException e) {
+    } catch (DataAccessException exception) {
       throw new NotFoundException("No Listing found for the given Id");
     }
   }

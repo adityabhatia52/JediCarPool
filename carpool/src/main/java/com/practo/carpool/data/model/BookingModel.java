@@ -75,16 +75,16 @@ public class BookingModel implements Serializable {
       try {
         uModel.entityPost(bookingEntity.getUser());
         this.setUserModel(uModel);
-      } catch (NotFoundException e) {
-        e.printStackTrace();
+      } catch (NotFoundException exception) {
+        exception.printStackTrace();
       }
 
       ListingModel lModel = new ListingModel();
       try {
         lModel.entityPost(bookingEntity.getListing());
         setListingModel(lModel);
-      } catch (NotFoundException e) {
-        e.printStackTrace();
+      } catch (NotFoundException exception) {
+        exception.printStackTrace();
       }
     } else {
       throw new NotFoundException("Booking with given id doesn't exist");

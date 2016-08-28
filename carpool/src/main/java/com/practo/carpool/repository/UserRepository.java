@@ -24,7 +24,7 @@ public class UserRepository implements CrudRepository<User, Integer> {
   public User findOne(Integer id) throws NotFoundException {
     try {
       return hibTemp.load(User.class, id);
-    } catch (DataAccessException e) {
+    } catch (DataAccessException exception) {
       throw new NotFoundException("No User found for the given Id");
     }
   }
@@ -36,7 +36,7 @@ public class UserRepository implements CrudRepository<User, Integer> {
     try {
       hibTemp.merge(entity);
       return entity;
-    } catch (DataAccessException e) {
+    } catch (DataAccessException exception) {
       throw new NotFoundException("No User found for the given Id");
     }
   }

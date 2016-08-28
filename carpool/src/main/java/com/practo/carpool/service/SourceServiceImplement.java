@@ -1,6 +1,7 @@
 /**
  * 
  */
+
 package com.practo.carpool.service;
 
 import java.util.ArrayList;
@@ -32,11 +33,11 @@ public class SourceServiceImplement implements SourceService {
     Iterable<Source> entities = sourceRepo.findAll();
     List<SourceModel> ulist = new ArrayList<SourceModel>();
     for (Source entity : entities) {
-      SourceModel u = new SourceModel();
+      SourceModel sourceModel = new SourceModel();
       try {
-        u.entityPost(entity);
-        ulist.add(u);
-      } catch (NotFoundException e) {
+        sourceModel.entityPost(entity);
+        ulist.add(sourceModel);
+      } catch (NotFoundException exception) {
         // Nothing needs to be done on accessing an deleted entity because the deleted entity won't
         // be added to the list
       }
@@ -48,7 +49,11 @@ public class SourceServiceImplement implements SourceService {
   public SourceModel get(int id) throws NotFoundException {
     Source sourceEntity = sourceRepo.findOne(id);
     SourceModel um = new SourceModel();
-    um.entityPost(sourceEntity);
+    try {
+      um.entityPost(sourceEntity);
+    } catch (ObjectNotFoundException exception) {
+      throw new NotFoundException("Source with given id not found");
+    }
     return um;
   }
 
@@ -60,8 +65,8 @@ public class SourceServiceImplement implements SourceService {
     try {
       sourceRepo.save(entity);
       sourceModel.entityPost(entity);
-    } catch (NotFoundException e) {
-      e.printStackTrace();
+    } catch (NotFoundException exception) {
+      exception.printStackTrace();
     }
     return sourceModel;
   }
@@ -76,8 +81,8 @@ public class SourceServiceImplement implements SourceService {
       try {
         sourceRepo.save(entity);
         sourceModel.entityPost(entity);
-      } catch (NotFoundException e) {
-        e.printStackTrace();
+      } catch (NotFoundException exception) {
+        exception.printStackTrace();
       }
       return sourceModel;
     } else {
@@ -90,7 +95,7 @@ public class SourceServiceImplement implements SourceService {
     try {
       Source sourceEntity = sourceRepo.findOne(id);
       sourceEntity.setDeletedAt(new Date());
-    } catch (ObjectNotFoundException e) {
+    } catch (ObjectNotFoundException exception) {
       throw new NotFoundException("Source with the given id doesn't exist");
     }
   }

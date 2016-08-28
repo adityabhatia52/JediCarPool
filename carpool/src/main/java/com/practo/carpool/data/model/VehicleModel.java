@@ -96,8 +96,8 @@ public class VehicleModel implements Serializable {
       try {
         userModel.entityPost(vehicleEntity.getUser());
         setUserModel(userModel);
-      } catch (NotFoundException e) {
-        e.printStackTrace();
+      } catch (NotFoundException exception) {
+        exception.printStackTrace();
       }
     } else {
       throw new NotFoundException("Vehicle with given id doesn't exist");

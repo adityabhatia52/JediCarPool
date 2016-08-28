@@ -1,122 +1,134 @@
 package com.practo.carpool.data.entity;
 
 import java.io.Serializable;
-import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
+import org.hibernate.annotations.Proxy;
 
 
 /**
  * The persistent class for the address database table.
  * 
  */
+@Proxy(lazy = false)
 @Entity
-@NamedQuery(name="Address.findAll", query="SELECT a FROM Address a")
+@NamedQuery(name = "Address.findAll", query = "SELECT a FROM Address a")
 public class Address implements Serializable {
-	private static final long serialVersionUID = 1L;
+  private static final long serialVersionUID = 1L;
 
-	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private int id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private int id;
 
-	@Column(name="destination")
-	private String destination;
-	
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name="created_at",nullable = false, updatable = false)
-	private Date createdAt;
+  @Column(name = "destination")
+  private String destination;
 
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name="deleted_at")
-	private Date deletedAt;
+  @Temporal(TemporalType.TIMESTAMP)
+  @Column(name = "created_at", nullable = false, updatable = false)
+  private Date createdAt;
 
-	private BigDecimal latitude;
+  @Temporal(TemporalType.TIMESTAMP)
+  @Column(name = "deleted_at")
+  private Date deletedAt;
 
-	private BigDecimal longitude;
+  private BigDecimal latitude;
 
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name="modified_at")
-	private Date modifiedAt;
+  private BigDecimal longitude;
 
-	//bi-directional many-to-one association to Listing
-	@OneToMany(mappedBy="address")
-	private List<Listing> listings;
+  @Temporal(TemporalType.TIMESTAMP)
+  @Column(name = "modified_at")
+  private Date modifiedAt;
 
-	public int getId() {
-		return this.id;
-	}
+  // bi-directional many-to-one association to Listing
+  @OneToMany(mappedBy = "address")
+  private List<Listing> listings;
 
-	public void setId(int id) {
-		this.id = id;
-	}
-	
-	public String getDestination() {
-      return this.destination;
+  public int getId() {
+    return this.id;
+  }
+
+  public void setId(int id) {
+    this.id = id;
+  }
+
+  public String getDestination() {
+    return this.destination;
   }
 
   public void setDestination(String destination) {
-      this.destination = destination;
+    this.destination = destination;
   }
 
-	public Date getCreatedAt() {
-		return this.createdAt;
-	}
+  public Date getCreatedAt() {
+    return this.createdAt;
+  }
 
-	public void setCreatedAt(Date createdAt) {
-		this.createdAt = createdAt;
-	}
+  public void setCreatedAt(Date createdAt) {
+    this.createdAt = createdAt;
+  }
 
-	public Date getDeletedAt() {
-		return this.deletedAt;
-	}
+  public Date getDeletedAt() {
+    return this.deletedAt;
+  }
 
-	public void setDeletedAt(Date deletedAt) {
-		this.deletedAt = deletedAt;
-	}
+  public void setDeletedAt(Date deletedAt) {
+    this.deletedAt = deletedAt;
+  }
 
-	public BigDecimal getLatitude() {
-		return this.latitude;
-	}
+  public BigDecimal getLatitude() {
+    return this.latitude;
+  }
 
-	public void setLatitude(BigDecimal latitude) {
-		this.latitude = latitude;
-	}
+  public void setLatitude(BigDecimal latitude) {
+    this.latitude = latitude;
+  }
 
-	public BigDecimal getLongitude() {
-		return this.longitude;
-	}
+  public BigDecimal getLongitude() {
+    return this.longitude;
+  }
 
-	public void setLongitude(BigDecimal longitude) {
-		this.longitude = longitude;
-	}
+  public void setLongitude(BigDecimal longitude) {
+    this.longitude = longitude;
+  }
 
-	public Date getModifiedAt() {
-		return this.modifiedAt;
-	}
+  public Date getModifiedAt() {
+    return this.modifiedAt;
+  }
 
-	public void setModifiedAt(Date modifiedAt) {
-		this.modifiedAt = modifiedAt;
-	}
+  public void setModifiedAt(Date modifiedAt) {
+    this.modifiedAt = modifiedAt;
+  }
 
-	public List<Listing> getListings() {
-		return this.listings;
-	}
+  public List<Listing> getListings() {
+    return this.listings;
+  }
 
-	public void setListings(List<Listing> listings) {
-		this.listings = listings;
-	}
+  public void setListings(List<Listing> listings) {
+    this.listings = listings;
+  }
 
-	public Listing addListing(Listing listing) {
-		getListings().add(listing);
-		listing.setAddress(this);
-		return listing;
-	}
+  public Listing addListing(Listing listing) {
+    getListings().add(listing);
+    listing.setAddress(this);
+    return listing;
+  }
 
-	public Listing removeListing(Listing listing) {
-		getListings().remove(listing);
-		listing.setAddress(null);
-		return listing;
-	}
+  public Listing removeListing(Listing listing) {
+    getListings().remove(listing);
+    listing.setAddress(null);
+    return listing;
+  }
 
 }

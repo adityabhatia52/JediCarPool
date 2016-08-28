@@ -139,31 +139,31 @@ public class ListingModel implements Serializable {
       try {
         uModel.entityPost(listingEntity.getUser());
         setUserModel(uModel);
-      } catch (NotFoundException e) {
-        e.printStackTrace();
+      } catch (NotFoundException exception) {
+        exception.printStackTrace();
       }
 
       VehicleModel vModel = new VehicleModel();
       try {
         vModel.entityPost(listingEntity.getVehicle());
         setVehicleModel(vModel);
-      } catch (NotFoundException e) {
-        e.printStackTrace();
+      } catch (NotFoundException exception) {
+        exception.printStackTrace();
       }
 
       AddressModel aModel = new AddressModel();
       try {
         aModel.entityPost(listingEntity.getAddress());
         setAddressModel(aModel);
-      } catch (NotFoundException e) {
-        e.printStackTrace();
+      } catch (NotFoundException exception) {
+        exception.printStackTrace();
       }
       SourceModel sModel = new SourceModel();
       try {
         sModel.entityPost(listingEntity.getSource());
         setSourceModel(sModel);
-      } catch (NotFoundException e) {
-        e.printStackTrace();
+      } catch (NotFoundException exception) {
+        exception.printStackTrace();
       }
       setAvailability(listingEntity.getAvailability());
       setSeatAvailable(listingEntity.getSeatAvailable());

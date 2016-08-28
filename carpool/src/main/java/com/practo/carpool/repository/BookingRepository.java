@@ -33,7 +33,7 @@ public class BookingRepository implements CrudRepository<Booking, Integer> {
   public Booking findOne(Integer id) throws NotFoundException {
     try {
       return hibTemp.load(Booking.class, id);
-    } catch (DataAccessException e) {
+    } catch (DataAccessException exception) {
       throw new NotFoundException("No Booking found for the given Id");
     }
   }
@@ -45,7 +45,7 @@ public class BookingRepository implements CrudRepository<Booking, Integer> {
     try {
       hibTemp.merge(entity);
       return entity;
-    } catch (DataAccessException e) {
+    } catch (DataAccessException exception) {
       throw new NotFoundException("No Booking found for the given Id");
     }
   }
@@ -66,7 +66,7 @@ public class BookingRepository implements CrudRepository<Booking, Integer> {
     try {
       return (Booking) hibTemp.findByCriteria(DetachedCriteria.forClass(Booking.class)
           .add(Restrictions.eq("listing.id", listingId)).add(Restrictions.eq("id", bookingId))).get(0);
-    } catch (IndexOutOfBoundsException e) {
+    } catch (IndexOutOfBoundsException exception) {
       throw new NotFoundException("No Booking found with given Id");
     }
   }

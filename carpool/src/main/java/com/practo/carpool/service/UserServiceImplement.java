@@ -29,7 +29,7 @@ public class UserServiceImplement implements UserService {
       try {
         u.entityPost(entity);
         ulist.add(u);
-      } catch (NotFoundException e) {
+      } catch (NotFoundException exception) {
         // Nothing needs to be done on accessing an deleted entity because the deleted entity won't
         // be added to the list
       }
@@ -45,7 +45,7 @@ public class UserServiceImplement implements UserService {
       um.entityPost(entity);
       return um;
     }
-    catch (ObjectNotFoundException e) {
+    catch (ObjectNotFoundException exception) {
       throw new NotFoundException("User with the given id doesn't exist");
     }
   }
@@ -59,8 +59,8 @@ public class UserServiceImplement implements UserService {
     try {
       entity = userRepo.save(entity);
       userModel.entityPost(entity);
-    } catch (NotFoundException e) {
-      e.printStackTrace();
+    } catch (NotFoundException exception) {
+      exception.printStackTrace();
     }
     return userModel;
   }
@@ -69,7 +69,7 @@ public class UserServiceImplement implements UserService {
   public UserModel update(UserModel userModel, int id) throws NotFoundException {
     try {
       userRepo.findOne(id);
-    } catch (ObjectNotFoundException e) {
+    } catch (ObjectNotFoundException exception) {
       throw new NotFoundException("User with the given id doesn't exist");
     }
     if (userRepo.findOne(id).getDeletedAt() == null) {
@@ -80,8 +80,8 @@ public class UserServiceImplement implements UserService {
       try {
         entity = userRepo.save(entity);
         userModel.entityPost(entity);
-      } catch (NotFoundException e) {
-        e.printStackTrace();
+      } catch (NotFoundException exception) {
+        exception.printStackTrace();
       }
       return userModel;
     } else {
@@ -94,7 +94,8 @@ public class UserServiceImplement implements UserService {
     try {
       User userEntity = userRepo.findOne(id);
       userEntity.setDeletedAt(new Date());
-    } catch (ObjectNotFoundException e) {
+      userRepo.save(userEntity);
+    } catch (ObjectNotFoundException exception) {
       throw new NotFoundException("User with the given id doesn't exist");
     }
   }

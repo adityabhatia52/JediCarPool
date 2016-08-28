@@ -35,7 +35,7 @@ public class VehicleRepository implements CrudRepository<Vehicle, Integer> {
   public Vehicle findOne(Integer id) throws NotFoundException {
     try {
       return hibTemp.load(Vehicle.class, id);
-    } catch (DataAccessException e) {
+    } catch (DataAccessException exception) {
       throw new NotFoundException("No Vehicle found for the given Id");
     }
   }
@@ -61,7 +61,7 @@ public class VehicleRepository implements CrudRepository<Vehicle, Integer> {
           .findByCriteria(DetachedCriteria.forClass(Vehicle.class)
               .add(Restrictions.eq("user.id", userId)).add(Restrictions.eq("id", vehicleId)))
           .get(0);
-    } catch (IndexOutOfBoundsException e) {
+    } catch (IndexOutOfBoundsException exception) {
       throw new NotFoundException("No Vehicle found for the given User");
     }
   }

@@ -34,7 +34,7 @@ public class AddressServiceImplement implements AddressService {
       try {
         u.entityPost(entity);
         ulist.add(u);
-      } catch (NotFoundException e) {
+      } catch (NotFoundException exception) {
         // Nothing needs to be done on accessing an deleted entity because the deleted entity won't
         // be added to the list
       }
@@ -44,7 +44,6 @@ public class AddressServiceImplement implements AddressService {
 
   @Override
   public AddressModel get(int id) throws NotFoundException {
-    // TODO Auto-generated method stub
     Address entity = addressRepo.findOne(id);
     AddressModel addModel = new AddressModel();
     addModel.entityPost(entity);
@@ -59,8 +58,8 @@ public class AddressServiceImplement implements AddressService {
       entity = addModel.entityGet();
       entity.setCreatedAt(new Date());
       addressRepo.save(entity); 
-    } catch (NotFoundException e) {
-      e.printStackTrace();
+    } catch (NotFoundException exception) {
+      exception.printStackTrace();
     }
     return addModel;
   }
@@ -75,8 +74,8 @@ public class AddressServiceImplement implements AddressService {
       try {
         entity = addressRepo.save(entity);
         addModel.entityPost(entity);
-      } catch (NotFoundException e) {
-        e.printStackTrace();
+      } catch (NotFoundException exception) {
+        exception.printStackTrace();
       }
       return addModel;
     } else {
@@ -90,7 +89,8 @@ public class AddressServiceImplement implements AddressService {
     try {
       Address addressEntity = addressRepo.findOne(id);
       addressEntity.setDeletedAt(new Date());
-    } catch (ObjectNotFoundException e) {
+      addressRepo.save(addressEntity);
+    } catch (ObjectNotFoundException exception) {
       throw new NotFoundException("Address with the given id doesn't exist");
     }
   }

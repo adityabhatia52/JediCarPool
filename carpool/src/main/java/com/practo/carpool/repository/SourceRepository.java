@@ -31,7 +31,7 @@ public class SourceRepository implements CrudRepository<Source, Integer> {
   public Source findOne(Integer id) throws NotFoundException {
     try {
       return hibTemp.load(Source.class, id);
-    } catch (DataAccessException e) {
+    } catch (DataAccessException exception) {
       throw new NotFoundException("No Source found for the given Id");
     }
   }
@@ -43,7 +43,7 @@ public class SourceRepository implements CrudRepository<Source, Integer> {
     try {
       hibTemp.merge(entity);
       return entity;
-    } catch (DataAccessException e) {
+    } catch (DataAccessException exception) {
       throw new NotFoundException("No Source found for the given Id");
     }
   }
