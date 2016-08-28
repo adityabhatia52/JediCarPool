@@ -17,9 +17,12 @@ public class Address implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int id;
 
+	@Column(name="destination")
+	private String destination;
+	
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name="created_at",nullable = false, updatable = false)
 	private Date createdAt;
@@ -40,9 +43,6 @@ public class Address implements Serializable {
 	@OneToMany(mappedBy="address")
 	private List<Listing> listings;
 
-	public Address() {
-	}
-
 	public int getId() {
 		return this.id;
 	}
@@ -50,6 +50,14 @@ public class Address implements Serializable {
 	public void setId(int id) {
 		this.id = id;
 	}
+	
+	public String getDestination() {
+      return this.destination;
+  }
+
+  public void setDestination(String destination) {
+      this.destination = destination;
+  }
 
 	public Date getCreatedAt() {
 		return this.createdAt;
