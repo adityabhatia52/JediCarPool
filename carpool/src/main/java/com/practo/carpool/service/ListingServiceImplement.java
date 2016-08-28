@@ -72,8 +72,9 @@ public class ListingServiceImplement implements ListingService {
     Listing listingEntity = new Listing();
     listingEntity = listingModel.entityGet();
     listingEntity.setCreatedAt(new Date());
+    listingEntity.setAvailability((byte) 1); 
     try {
-      listingRepo.save(listingEntity);
+      listingEntity = listingRepo.save(listingEntity);
       listingModel.entityPost(listingEntity);
     } catch (NotFoundException e) {
       e.printStackTrace();

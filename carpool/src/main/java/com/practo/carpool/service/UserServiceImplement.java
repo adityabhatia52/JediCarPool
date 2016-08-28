@@ -39,10 +39,15 @@ public class UserServiceImplement implements UserService {
 
   @Override
   public UserModel get(int id) throws NotFoundException {
-    User entity = userRepo.findOne(id);
-    UserModel um = new UserModel();
-    um.entityPost(entity);
-    return um;
+    try{
+      User entity = userRepo.findOne(id);
+      UserModel um = new UserModel();
+      um.entityPost(entity);
+      return um;
+    }
+    catch (ObjectNotFoundException e) {
+      throw new NotFoundException("User with the given id doesn't exist");
+    }
   }
 
   @Override
