@@ -1,0 +1,162 @@
+.portfolio-grid h4{
+	color:#393939;
+	font-size:1.2em;
+	text-align:center;
+	font-weight:600;
+	width:50%;
+	margin:0 auto;
+	padding-top: 1em;	
+}
+.container { 
+	position: relative; 
+	-webkit-transition: all 1s ease;
+	-moz-transition: all 1s ease;
+	-o-transition: all 1s ease;
+	transition: all 1s ease;	
+}
+#filters {
+	padding:3% 0;
+	list-style:none;
+	text-align:center;
+}
+#filters li {
+	display:inline-block;
+	margin:5px;
+}
+#filters li:first-child{
+	margin-left:0;
+}
+#filters li span {
+	display: block;
+	padding: 5px 25px;
+	text-decoration: none;
+	color: white;
+	cursor: pointer;
+	/*font-size: 1.2em;*/
+	/* font-weight: 600; */
+	/* text-transform: uppercase; */
+	background: #2b363e;
+	border-radius: 5px;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	-o-border-radius: 5px;
+	-webkit-transition: all 0.3s ease;
+	-moz-transition: all 0.3s ease;
+	-o-transition: all 0.3s ease;
+	transition: all 0.3s ease;	
+}
+#filters li span.active {
+	background: #e84c3d
+}
+
+#filters li span:hover{
+	background: #e84c3d !important;
+}
+
+#portfoliolist .portfolio {
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	-o-box-sizing: border-box;
+	width:48%;
+	margin:2% 1%;
+	display:none;
+	float:left;
+	overflow:hidden;
+	padding: 1%;
+}
+
+#portfoliolist img{
+	width: 100%;
+}
+
+.portfolio-wrapper {
+	overflow:hidden;
+	position: relative !important;
+	cursor:pointer;
+	text-align:center;
+}
+.portfolio-wrapper a{
+	display:block;
+}
+.portfolio-img img {
+	max-width:100%;
+	position: relative;
+	display:inline-block;
+	transition: all 300ms!important;
+	-webkit-transition: all 300ms!important;
+	-moz-transition: all 300ms!important;
+}
+.portfolio-wrapper h5{
+	color:#444;
+	font-size: 1.2em;
+	text-align: center;
+	font-weight: 600;
+	text-align:center;
+	text-transform:uppercase;
+}
+.green-button a{
+	background:#17c2a4;
+	border-bottom:4px solid #14a58c;
+}
+.green-button a:hover{
+	background:#00B495;
+}
+.container { 
+	position: relative; 
+	-webkit-transition: all 1s ease;
+	-moz-transition: all 1s ease;
+	-o-transition: all 1s ease;
+	transition: all 1s ease;	
+}
+@media all and (max-width:800px){
+	.wrap{
+		width:95%;
+	}
+	.header_desc{
+		padding:4em 0 1em 0;
+	}
+	.services h4,.Skills h4,.portfolio-grid h4,.team h4{
+		width:100%;
+	}
+	.services_grids{
+		margin-top:0;
+	}
+	.grid_1_of_4{
+		margin:0;
+	}
+	.services_1_of_4,.team_1_of_4{
+		width:94%;
+		padding:3%;
+	}
+	.services_1_of_4 img,.team_1_of_4 img{
+		margin:0;
+	}
+	.feedback input[type="text"], .feedback textarea{
+		width:91%;
+	}
+}
+
+@media all and (max-width:320px){
+	.wrap{
+		width:95%;
+	}
+	.services,.team,.Skills,.portfolio-grid,.about,.feedback{
+		padding:2em 0;
+	}
+	.Skills h4,.portfolio-grid h4,.team h4,.services h4,.feedback h4{
+		font-size:1em;
+		padding-top:0;
+		padding-bottom:10px;
+	}
+}
+
+@media screen and (min-width: 768px){
+	#portfoliolist .portfolio{
+		width: 23%;
+		margin: 1% 0;
+	}
+}
+
+.wrap .container{
+	padding: 0;
+}
