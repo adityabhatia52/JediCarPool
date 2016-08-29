@@ -1,25 +1,25 @@
 [![Build Status](https://travis-ci.org/adityabhatia52/JediCarPool.svg?branch=master)](https://travis-ci.org/adityabhatia52/JediCarPool)
 
 #CAR POOLING APP
-To maintain a web based application that enables the corporate employees at Practo to avail the facility of car pooling effectively.
+A webapp which makes it easier to car pool by viewing listings;booking and posting new list.
 
-##Requirements
+##DOCUMENTATION
 
-##Must Have:
+##ER Diagram
+![ER Diagram](https://github.com/adityabhatia52/JediCarPool/blob/master/docs/ERDiagram.png?raw=true)
 
-* Authentication via Google/Facebook Login: Restrict access
-* Ensure that the cars and drivers are from practo/authorized
-* Users can view a list of cars with source(3 sources:),destination(localities) and seats available
-* Users can post time of departure,location and seats available
-* Flter car pooling requests according to location(DropDown) 
-* Sort by time and locality
-* Validity;After departure
-* Emails amazon scs : After booking:Checklist
-* User Postings
+### Tools and Tech
 
-##Good to have:
-* Reminder for driver/user;integration with google calendars;slack channel
-* Integration with google maps to calculate ideal route
-* Booked Postings
-* Who’s travelling with whom
-
+1. Java 8
+2. Maven
+3. Spring Boot
+4. MySQL (Production DB)
+5. Hibernate
+6. HSQLdb (Test DB)
+9. [Travis CI](https://travis-ci.org/adityabhatia52/JediCarPool)
+10. [AWS EC2](http://ec2-52-66-60-159.ap-south-1.compute.amazonaws.com/car-pool/)
+11. [JaCoCo](http://ec2-52-66-60-159.ap-south-1.compute.amazonaws.com/car-pool/jacoco/index.html)
+12. JavaDoc
+13. [Apiary](http://docs.jedicarpool.apiary.io/)
+14. Checkstyle
+15. Codeformatter
