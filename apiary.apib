@@ -200,3 +200,190 @@ Car Pool is an API for a car pooling webapp for Practo Employees
     + Headers
     
             Location: /listing/1
+            
+
+## Users Collection [/users/{user_id}]
+
+### List All Users [GET]
+
++ Parameters
+    + user_id (number, optional) - ID of the User in the form of an integer
+
++ Response 200 (application/json)
+
+        
+              {
+                "id": 1,
+                "name": "Aditya",
+                "email": "aditya@practo.com",
+                "mobile": "9921381797"
+              }
+        
+
+### Create a New User [POST]
+
++ Request (application/json)
+
+            {
+                "email": "abdul@practo.com",
+                "name": "abdul",
+                "mobile": "9901223334"
+            }
+
++ Response 201 (application/json)
+
+    + Headers
+
+            Location: /user/9
+
+    + Body
+
+            {
+              "id": 9,
+              "name": "abdul",
+              "email": "abdul@practo.com",
+              "mobile": "9901223334"
+            }
+
+
+### Update a User [PUT]
+
++ Parameters
+    + user_id (number) - ID of the User in the form of an integer
+    
++ Request (application/json)
+
+            {
+                "email": "abdul@practo.com",
+                "name": "abdul",
+                "mobile": "9999988888"
+            }
+
++ Response 200 (application/json)
+
+    + Headers
+
+            Location: /user/9
+
+    + Body
+
+            {
+              "id": 9,
+              "name": "abdul",
+              "email": "abdul@practo.com",
+              "mobile": "9999988888"
+            }
+
+### Delete a User [DELETE]
+
++ Response 204
+
+## Vehicles Collection [/user/{user_id}/vehicle/{vehicle_id}]
+
+### List All Vehicles [GET]
+
+
++ Parameters
+    + user_id (number) - ID of the User in the form of an integer
+    + vehicle_id (number, optional) - ID of the Vehicle in the form of an integer
+    
+
++ Response 200 (application/json)
+
+
+              {
+                "id": 1,
+                "capacity": 4,
+                "model": "BMW",
+                "numberPlate": "safdf",
+                "userModel": {
+                  "id": 1,
+                  "name": "Prashant",
+                  "email": "prashant@practo.com",
+                  "mobile": "9565067200"
+                }
+              }
+### Create a New Vehicle [POST]
+
++ Parameters
+    + user_id (number) - ID of the User in the form of an integer
+
++ Request (application/json)
+            
+            {
+                "capacity": 4,
+                "model": "Honda",
+                "numberPlate": "UP16F8599"
+            }
+
++ Response 201 (application/json)
+
+    + Headers
+
+            Location: /users/5/vehicles/6
+
+    + Body
+
+            {
+                  "id": 6,
+                  "capacity": 3,
+                  "model": "qaz",
+                  "numberPlate": "xsw",
+                  "user": {
+                    "id": 5,
+                    "name": null,
+                    "email": null,
+                    "phone": null
+                  }
+            }
+
+
+### Update a Vehicle [PUT]
+
++ Parameters
+    + user_id (number) - ID of the User in the form of an integer
+    + vehicle_id (number, optional) - ID of the Vehicle in the form of an integer
+    
++ Request (application/json)
+
+            {
+              "id": 6,
+              "capacity": 3,
+              "model": "qaz",
+              "numberPlate": "xsw",
+              "user": {
+                "id": 5,
+                "name": null,
+                "email": null,
+                "phone": null
+              }
+            }
+
++ Response 200 (application/json)
+
+    + Headers
+
+            Location: /users/5/vehicles/6
+
+    + Body
+
+            {
+                  "id": 6,
+                  "capacity": 3,
+                  "model": "qazedc",
+                  "numberPlate": "xsw",
+                  "user": {
+                    "id": 5,
+                    "name": "Chetan",
+                    "email": "chetan@practo.com",
+                    "phone": "1231231231"
+                  }
+            }
+
+### Delete a Vehicle [DELETE]
+
++ Parameters
+    + user_id (number) - ID of the User in the form of an integer
+    + vehicle_id (number, optional) - ID of the Vehicle in the form of an integer
+
++ Response 204
