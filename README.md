@@ -17,9 +17,7 @@ A webapp which makes it easier to car pool by viewing listings;booking and posti
 5. Hibernate
 6. HSQLdb (Test DB)
 9. [Travis CI](https://travis-ci.org/adityabhatia52/JediCarPool)
-10. [AWS EC2](http://ec2-52-66-60-159.ap-south-1.compute.amazonaws.com/car-pool/)
-11. [JaCoCo](http://ec2-52-66-60-159.ap-south-1.compute.amazonaws.com/car-pool/jacoco/index.html)
-12. JavaDoc
-13. [Apiary](http://docs.jedicarpool.apiary.io/)
+11. JaCoCo
+13. [Apiary](http://docs.carpool6.apiary.io/)
 14. Checkstyle
 15. Codeformatter
