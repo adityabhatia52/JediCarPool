@@ -13,10 +13,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.practo.carpool.data.entity.Booking;
+import com.practo.carpool.data.entity.Listing;
 import com.practo.carpool.data.model.BookingModel;
 import com.practo.carpool.data.model.ListingModel;
 import com.practo.carpool.exceptions.NotFoundException;
 import com.practo.carpool.repository.BookingRepository;
+import com.practo.carpool.repository.ListingRepository;
 
 /**
  * @author aditya
@@ -28,6 +30,9 @@ public class BookingServiceImplement implements BookingService {
 
   @Autowired
   private BookingRepository bookingRepo;
+  
+  @Autowired
+  private ListingRepository listingRepo;
 
   @Override
   public Iterable<BookingModel> get(int listId) {
@@ -58,6 +63,14 @@ public class BookingServiceImplement implements BookingService {
   public BookingModel create(int listId, BookingModel bookingModel) {
     ListingModel listModel = new ListingModel();
     listModel.setId(listId);
+    try{
+      Listing list = listingRepo.findOne(listId);
+      listModel.entityPost(list);
+    }catch (NotFoundException exception) {
+      exception.printStackTrace();
+    }
+    
+    listModel.setSeatAvailable(listModel.getSeatAvailable()-1);
     bookingModel.setListingModel(listModel);
     Booking entity = new Booking();
     entity = bookingModel.entityGet();
@@ -74,6 +87,13 @@ public class BookingServiceImplement implements BookingService {
   @Override
   public BookingModel update(int listId, BookingModel bookingModel, int id)
       throws NotFoundException {
+    try{
+      @SuppressWarnings("unused")
+      Booking bookEntity = bookingRepo.findOne(id);
+    }
+    catch (ObjectNotFoundException exception) {
+      throw new NotFoundException("Booking with the given id doesn't exist");
+    }
     if (bookingRepo.findOne(id).getDeletedAt() == null) {
       ListingModel listModel = new ListingModel();
       listModel.setId(listId);

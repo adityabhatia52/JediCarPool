@@ -1,6 +1,3 @@
-/**
- * 
- */
 package com.practo.carpool.service;
 
 import java.util.ArrayList;
@@ -23,6 +20,7 @@ import com.practo.carpool.repository.ListingRepository;
  * @author aditya
  *
  */
+
 @Service
 @Transactional
 public class ListingServiceImplement implements ListingService {
@@ -63,7 +61,11 @@ public class ListingServiceImplement implements ListingService {
   public ListingModel get(int id) throws NotFoundException {
     Listing listingEntity = listingRepo.findOne(id);
     ListingModel listingModel = new ListingModel();
-    listingModel.entityPost(listingEntity);
+    try {
+      listingModel.entityPost(listingEntity);
+    } catch (ObjectNotFoundException exception) {
+      throw new NotFoundException("Source with given id not found");
+    }
     return listingModel;
   }
 
@@ -72,7 +74,7 @@ public class ListingServiceImplement implements ListingService {
     Listing listingEntity = new Listing();
     listingEntity = listingModel.entityGet();
     listingEntity.setCreatedAt(new Date());
-    listingEntity.setAvailability((byte) 1); 
+    listingEntity.setAvailability((byte) 1);
     try {
       listingEntity = listingRepo.save(listingEntity);
       listingModel.entityPost(listingEntity);
