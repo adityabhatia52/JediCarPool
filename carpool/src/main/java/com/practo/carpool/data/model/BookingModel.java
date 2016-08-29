@@ -1,6 +1,3 @@
-/**
- * 
- */
 package com.practo.carpool.data.model;
 
 import java.io.Serializable;
@@ -8,7 +5,7 @@ import java.io.Serializable;
 import com.practo.carpool.data.entity.Booking;
 import com.practo.carpool.exceptions.NotFoundException;
 
-/**
+/**Model for the booking entity;{@link Booking}.
  * @author aditya
  *
  */

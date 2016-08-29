@@ -126,14 +126,16 @@ public class ListingModel implements Serializable {
     ListingEntity.setSeatAvailable(getSeatAvailable());
     ListingEntity.setDepartTime(getDepartTime());
     ListingEntity.setAvailability(getAvailability());
-    if (new Integer(getId()) != null)
+    if (new Integer(getId()) != null) {
       ListingEntity.setId(getId());
+    }
     return ListingEntity;
   }
 
   // entity to model
   public void entityPost(Listing listingEntity) throws NotFoundException {
-    if (listingEntity != null && listingEntity.getDeletedAt() == null) {
+    if (listingEntity != null && listingEntity.getDeletedAt() == null
+        && listingEntity.getSeatAvailable() > 0) {
 
       UserModel uModel = new UserModel();
       try {

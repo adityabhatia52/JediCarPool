@@ -12,169 +12,169 @@ import java.util.List;
  * 
  */
 @Entity
-@NamedQuery(name="Listing.findAll", query="SELECT l FROM Listing l")
+@NamedQuery(name = "Listing.findAll", query = "SELECT l FROM Listing l")
 public class Listing implements Serializable {
-	private static final long serialVersionUID = 1L;
 
-	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private int id;
+  private static final long serialVersionUID = 1L;
 
-	private byte availability;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private int id;
 
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name="created_at",nullable = false, updatable = false)
-	private Date createdAt;
+  private byte availability;
 
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name="deleted_at")
-	private Date deletedAt;
+  @Temporal(TemporalType.TIMESTAMP)
+  @Column(name = "created_at", nullable = false, updatable = false)
+  private Date createdAt;
 
-	@Column(name="depart_time")
-	private Timestamp departTime;
+  @Temporal(TemporalType.TIMESTAMP)
+  @Column(name = "deleted_at")
+  private Date deletedAt;
 
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name="modified_at")
-	private Date modifiedAt;
+  @Column(name = "depart_time")
+  private Timestamp departTime;
 
-	@Column(name="seat_available")
-	private int seatAvailable;
+  @Temporal(TemporalType.TIMESTAMP)
+  @Column(name = "modified_at")
+  private Date modifiedAt;
 
-	//bi-directional many-to-one association to Booking
-	@OneToMany(mappedBy="listing")
-	private List<Booking> bookings;
+  @Column(name = "seat_available")
+  private int seatAvailable;
 
-	//bi-directional many-to-one association to Vehicle
-	@ManyToOne
-	@JoinColumn(name="id_vehicle")
-	private Vehicle vehicle;
+  // bi-directional many-to-one association to Booking
+  @OneToMany(mappedBy = "listing")
+  private List<Booking> bookings;
 
-	//bi-directional many-to-one association to Address
-	@ManyToOne
-	@JoinColumn(name="id_destination")
-	private Address address;
+  // bi-directional many-to-one association to Vehicle
+  @ManyToOne
+  @JoinColumn(name = "id_vehicle")
+  private Vehicle vehicle;
 
-	//bi-directional many-to-one association to User
-	@ManyToOne
-	@JoinColumn(name="id_lister")
-	private User user;
+  // bi-directional many-to-one association to Address
+  @ManyToOne
+  @JoinColumn(name = "id_destination")
+  private Address address;
 
-	//bi-directional many-to-one association to Source
-	@ManyToOne
-	@JoinColumn(name="id_source")
-	private Source source;
+  // bi-directional many-to-one association to User
+  @ManyToOne
+  @JoinColumn(name = "id_lister")
+  private User user;
 
-	public Listing() {
-	}
+  // bi-directional many-to-one association to Source
+  @ManyToOne
+  @JoinColumn(name = "id_source")
+  private Source source;
 
-	public int getId() {
-		return this.id;
-	}
+  public Listing() {}
 
-	public void setId(int id) {
-		this.id = id;
-	}
+  public int getId() {
+    return this.id;
+  }
 
-	public byte getAvailability() {
-		return this.availability;
-	}
+  public void setId(int id) {
+    this.id = id;
+  }
 
-	public void setAvailability(byte availability) {
-		this.availability = availability;
-	}
+  public byte getAvailability() {
+    return this.availability;
+  }
 
-	public Date getCreatedAt() {
-		return this.createdAt;
-	}
+  public void setAvailability(byte availability) {
+    this.availability = availability;
+  }
 
-	public void setCreatedAt(Date createdAt) {
-		this.createdAt = createdAt;
-	}
+  public Date getCreatedAt() {
+    return this.createdAt;
+  }
 
-	public Date getDeletedAt() {
-		return this.deletedAt;
-	}
+  public void setCreatedAt(Date createdAt) {
+    this.createdAt = createdAt;
+  }
 
-	public void setDeletedAt(Date deletedAt) {
-		this.deletedAt = deletedAt;
-	}
+  public Date getDeletedAt() {
+    return this.deletedAt;
+  }
 
-	public Timestamp getDepartTime() {
-		return this.departTime;
-	}
+  public void setDeletedAt(Date deletedAt) {
+    this.deletedAt = deletedAt;
+  }
 
-	public void setDepartTime(Timestamp departTime) {
-		this.departTime = departTime;
-	}
+  public Timestamp getDepartTime() {
+    return this.departTime;
+  }
 
-	public Date getModifiedAt() {
-		return this.modifiedAt;
-	}
+  public void setDepartTime(Timestamp departTime) {
+    this.departTime = departTime;
+  }
 
-	public void setModifiedAt(Date modifiedAt) {
-		this.modifiedAt = modifiedAt;
-	}
+  public Date getModifiedAt() {
+    return this.modifiedAt;
+  }
 
-	public int getSeatAvailable() {
-		return this.seatAvailable;
-	}
+  public void setModifiedAt(Date modifiedAt) {
+    this.modifiedAt = modifiedAt;
+  }
 
-	public void setSeatAvailable(int seatAvailable) {
-		this.seatAvailable = seatAvailable;
-	}
+  public int getSeatAvailable() {
+    return this.seatAvailable;
+  }
 
-	public List<Booking> getBookings() {
-		return this.bookings;
-	}
+  public void setSeatAvailable(int seatAvailable) {
+    this.seatAvailable = seatAvailable;
+  }
 
-	public void setBookings(List<Booking> bookings) {
-		this.bookings = bookings;
-	}
+  public List<Booking> getBookings() {
+    return this.bookings;
+  }
 
-	public Booking addBooking(Booking booking) {
-		getBookings().add(booking);
-		booking.setListing(this);
+  public void setBookings(List<Booking> bookings) {
+    this.bookings = bookings;
+  }
 
-		return booking;
-	}
+  public Booking addBooking(Booking booking) {
+    getBookings().add(booking);
+    booking.setListing(this);
 
-	public Booking removeBooking(Booking booking) {
-		getBookings().remove(booking);
-		booking.setListing(null);
+    return booking;
+  }
 
-		return booking;
-	}
+  public Booking removeBooking(Booking booking) {
+    getBookings().remove(booking);
+    booking.setListing(null);
 
-	public Vehicle getVehicle() {
-		return this.vehicle;
-	}
+    return booking;
+  }
 
-	public void setVehicle(Vehicle vehicle) {
-		this.vehicle = vehicle;
-	}
+  public Vehicle getVehicle() {
+    return this.vehicle;
+  }
 
-	public Address getAddress() {
-		return this.address;
-	}
+  public void setVehicle(Vehicle vehicle) {
+    this.vehicle = vehicle;
+  }
 
-	public void setAddress(Address address) {
-		this.address = address;
-	}
+  public Address getAddress() {
+    return this.address;
+  }
 
-	public User getUser() {
-		return this.user;
-	}
+  public void setAddress(Address address) {
+    this.address = address;
+  }
 
-	public void setUser(User user) {
-		this.user = user;
-	}
+  public User getUser() {
+    return this.user;
+  }
 
-	public Source getSource() {
-		return this.source;
-	}
+  public void setUser(User user) {
+    this.user = user;
+  }
 
-	public void setSource(Source source) {
-		this.source = source;
-	}
+  public Source getSource() {
+    return this.source;
+  }
+
+  public void setSource(Source source) {
+    this.source = source;
+  }
 
 }
