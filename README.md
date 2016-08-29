@@ -1,4 +1,5 @@
-[![Travis-ci Build Status(https://travis-ci.org/adityabhatia52/JediCarPool.svg?branch=master)](https://travis-ci.org/adityabhatia52/JediCarPool)
+[![Build Status](https://travis-ci.org/adityabhatia52/JediCarPool.svg?branch=master)](https://travis-ci.org/adityabhatia52/JediCarPool)
+
 #CAR POOLING APP
 To maintain a web based application that enables the corporate employees at Practo to avail the facility of car pooling effectively.
 
