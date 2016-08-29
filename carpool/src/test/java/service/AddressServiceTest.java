@@ -31,11 +31,11 @@ public class AddressServiceTest {
   @Test
   public void testAGet() throws NotFoundException {
     // Get All Address
-    ArrayList<AddressModel> Address = (ArrayList<AddressModel>) service.get();
-    assertEquals(3, Address.size());
-    assertEquals("JP Nagar, Banglore", Address.get(0).getDestination());
-    assertEquals(new BigDecimal("1.11"), Address.get(0).getLongitude());
-    assertEquals(new BigDecimal("1.22"), Address.get(0).getLatitude());
+    ArrayList<AddressModel> addModelList = (ArrayList<AddressModel>) service.get();
+    assertEquals(3, addModelList.size());
+    assertEquals("JP Nagar, Banglore", addModelList.get(0).getDestination());
+    assertEquals(new BigDecimal("1.11"), addModelList.get(0).getLongitude());
+    assertEquals(new BigDecimal("1.22"), addModelList.get(0).getLatitude());
     // Get One
     AddressModel addressModel = service.get(2);
     assertEquals("Bannerghatta Road, Banglore", addressModel.getDestination());
@@ -46,8 +46,8 @@ public class AddressServiceTest {
   // get for not found
   @Test(expected = NotFoundException.class)
   public void testBGetNotFound() throws NotFoundException {
-    AddressModel AddressModel = service.get(11);
-    assertNull(AddressModel);
+    AddressModel addressModel = service.get(11);
+    assertNull(addressModel);
   }
 
   // create

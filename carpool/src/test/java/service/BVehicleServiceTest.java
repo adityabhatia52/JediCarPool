@@ -61,7 +61,7 @@ public class BVehicleServiceTest {
     vehicle.setCapacity(3);
     vehicle.setNumberPlate("DL21G0202");
     vehicle = service.create(1, vehicle);
-    VehicleModel dbVehicle = service.get(1, 4);
+    VehicleModel dbVehicle = service.get(1, 5);
     assertNotNull(dbVehicle);
     assertEquals("Maruti", dbVehicle.getModel());
     assertEquals("DL21G0202", dbVehicle.getNumberPlate());
@@ -69,7 +69,6 @@ public class BVehicleServiceTest {
   }
 
   // update
-
   @Test
   public void testDUpdate() throws NotFoundException {
     int userId = 2;
@@ -90,17 +89,15 @@ public class BVehicleServiceTest {
   public void testEUpdateNotFound() throws NotFoundException {
     VehicleModel vehicleModel = service.get(1, 10);
     vehicleModel.setModel("Hyundai");
-
     service.update(1, vehicleModel, 10);
     assertNull(vehicleModel);
   }
 
   // delete
-
   @Test(expected = NotFoundException.class)
   public void testFDelete() throws NotFoundException {
-    service.delete(1, 1);
-    VehicleModel vehicle = service.get(1, 1);
+    service.delete(2, 4);
+    VehicleModel vehicle = service.get(2, 4);
     assertNull(vehicle);
   }
 
