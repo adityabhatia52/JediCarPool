@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>ListingModel.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">car-pool</a> &gt; <a href="index.source.html" class="el_package">com.practo.carpool.data.model</a> &gt; <span class="el_source">ListingModel.java</span></div><h1>ListingModel.java</h1><pre class="source lang-java linenums">/**
+ * 
+ */
+package com.practo.carpool.data.model;
+
+import java.io.Serializable;
+import java.sql.Timestamp;
+
+import com.practo.carpool.data.entity.Listing;
+import com.practo.carpool.exceptions.NotFoundException;
+
+/**
+ * @author aditya
+ *
+ */
+public class ListingModel implements Serializable {
+  private static final long serialVersionUID = 1L;
+
+  private int id;
+
+  private byte availability;
+
+  private Timestamp departTime;
+
+  private int seatAvailable;
+
+  private AddressModel addressModel;
+
+  private SourceModel sourceModel;
+
+  private UserModel userModel;
+
+  private VehicleModel vehicleModel;
+
+<span class="fc" id="L35">  public ListingModel() {};</span>
+
+  public ListingModel(Timestamp departTime, int seatAvailable, SourceModel sourceModel,
+<span class="nc" id="L38">      UserModel userModel, VehicleModel vehicleModel, AddressModel addressModel) {</span>
+<span class="nc" id="L39">    this.userModel = userModel;</span>
+<span class="nc" id="L40">    this.vehicleModel = vehicleModel;</span>
+<span class="nc" id="L41">    this.addressModel = addressModel;</span>
+<span class="nc" id="L42">    this.seatAvailable = seatAvailable;</span>
+<span class="nc" id="L43">    this.sourceModel = sourceModel;</span>
+<span class="nc" id="L44">    this.departTime = departTime;</span>
+<span class="nc" id="L45">  }</span>
+
+  public int getId() {
+<span class="fc" id="L48">    return this.id;</span>
+  }
+
+  public void setId(int id) {
+<span class="fc" id="L52">    this.id = id;</span>
+<span class="fc" id="L53">  }</span>
+
+  public byte getAvailability() {
+<span class="fc" id="L56">    return this.availability;</span>
+  }
+
+  public void setAvailability(byte availability) {
+<span class="fc" id="L60">    this.availability = availability;</span>
+<span class="fc" id="L61">  }</span>
+
+  public Timestamp getDepartTime() {
+<span class="fc" id="L64">    return this.departTime;</span>
+  }
+
+  public void setDepartTime(Timestamp departTime) {
+<span class="fc" id="L68">    this.departTime = departTime;</span>
+<span class="fc" id="L69">  }</span>
+
+  public int getSeatAvailable() {
+<span class="fc" id="L72">    return this.seatAvailable;</span>
+  }
+
+  public void setSeatAvailable(int seatAvailable) {
+<span class="fc" id="L76">    this.seatAvailable = seatAvailable;</span>
+<span class="fc" id="L77">  }</span>
+
+  public AddressModel getAddressModel() {
+<span class="fc" id="L80">    return this.addressModel;</span>
+  }
+
+  public void setAddressModel(AddressModel addressModel) {
+<span class="fc" id="L84">    this.addressModel = addressModel;</span>
+<span class="fc" id="L85">  }</span>
+
+  public SourceModel getSourceModel() {
+<span class="fc" id="L88">    return this.sourceModel;</span>
+  }
+
+  public void setSourceModel(SourceModel sourceModel) {
+<span class="fc" id="L92">    this.sourceModel = sourceModel;</span>
+<span class="fc" id="L93">  }</span>
+
+  public UserModel getUserModel() {
+<span class="fc" id="L96">    return this.userModel;</span>
+  }
+
+  public void setUserModel(UserModel userModel) {
+<span class="fc" id="L100">    this.userModel = userModel;</span>
+<span class="fc" id="L101">  }</span>
+
+  public VehicleModel getVehicleModel() {
+<span class="fc" id="L104">    return this.vehicleModel;</span>
+  }
+
+  public void setVehicleModel(VehicleModel vehicleModel) {
+<span class="fc" id="L108">    this.vehicleModel = vehicleModel;</span>
+<span class="fc" id="L109">  }</span>
+
+  // model to entity
+  public Listing entityGet() {
+<span class="fc" id="L113">    Listing ListingEntity = new Listing();</span>
+<span class="fc bfc" id="L114" title="All 2 branches covered.">    if (this.getUserModel() != null) {</span>
+<span class="fc" id="L115">      ListingEntity.setUser(this.getUserModel().entityGet());</span>
+    }
+<span class="fc bfc" id="L117" title="All 2 branches covered.">    if (this.getVehicleModel() != null) {</span>
+<span class="fc" id="L118">      ListingEntity.setVehicle(this.getVehicleModel().entityGet());</span>
+    }
+<span class="fc bfc" id="L120" title="All 2 branches covered.">    if (this.getAddressModel() != null) {</span>
+<span class="fc" id="L121">      ListingEntity.setAddress(this.getAddressModel().entityGet());</span>
+    }
+<span class="fc bfc" id="L123" title="All 2 branches covered.">    if (this.getSourceModel() != null) {</span>
+<span class="fc" id="L124">      ListingEntity.setSource(this.getSourceModel().entityGet());</span>
+    }
+<span class="fc" id="L126">    ListingEntity.setSeatAvailable(getSeatAvailable());</span>
+<span class="fc" id="L127">    ListingEntity.setDepartTime(getDepartTime());</span>
+<span class="fc" id="L128">    ListingEntity.setAvailability(getAvailability());</span>
+<span class="pc bpc" id="L129" title="1 of 2 branches missed.">    if (new Integer(getId()) != null) {</span>
+<span class="fc" id="L130">      ListingEntity.setId(getId());</span>
+    }
+<span class="fc" id="L132">    return ListingEntity;</span>
+  }
+
+  // entity to model
+  public void entityPost(Listing listingEntity) throws NotFoundException {
+<span class="pc bpc" id="L137" title="1 of 4 branches missed.">    if (listingEntity != null &amp;&amp; listingEntity.getDeletedAt() == null</span>
+<span class="fc bfc" id="L138" title="All 2 branches covered.">        &amp;&amp; listingEntity.getSeatAvailable() &gt; 0) {</span>
+
+<span class="fc" id="L140">      UserModel uModel = new UserModel();</span>
+      try {
+<span class="fc" id="L142">        uModel.entityPost(listingEntity.getUser());</span>
+<span class="fc" id="L143">        setUserModel(uModel);</span>
+<span class="nc" id="L144">      } catch (NotFoundException exception) {</span>
+<span class="nc" id="L145">        exception.printStackTrace();</span>
+<span class="fc" id="L146">      }</span>
+
+<span class="fc" id="L148">      VehicleModel vModel = new VehicleModel();</span>
+      try {
+<span class="fc" id="L150">        vModel.entityPost(listingEntity.getVehicle());</span>
+<span class="fc" id="L151">        setVehicleModel(vModel);</span>
+<span class="nc" id="L152">      } catch (NotFoundException exception) {</span>
+<span class="nc" id="L153">        exception.printStackTrace();</span>
+<span class="fc" id="L154">      }</span>
+
+<span class="fc" id="L156">      AddressModel aModel = new AddressModel();</span>
+      try {
+<span class="fc" id="L158">        aModel.entityPost(listingEntity.getAddress());</span>
+<span class="fc" id="L159">        setAddressModel(aModel);</span>
+<span class="nc" id="L160">      } catch (NotFoundException exception) {</span>
+<span class="nc" id="L161">        exception.printStackTrace();</span>
+<span class="fc" id="L162">      }</span>
+<span class="fc" id="L163">      SourceModel sModel = new SourceModel();</span>
+      try {
+<span class="fc" id="L165">        sModel.entityPost(listingEntity.getSource());</span>
+<span class="fc" id="L166">        setSourceModel(sModel);</span>
+<span class="nc" id="L167">      } catch (NotFoundException exception) {</span>
+<span class="nc" id="L168">        exception.printStackTrace();</span>
+<span class="fc" id="L169">      }</span>
+<span class="fc" id="L170">      setAvailability(listingEntity.getAvailability());</span>
+<span class="fc" id="L171">      setSeatAvailable(listingEntity.getSeatAvailable());</span>
+<span class="fc" id="L172">      setDepartTime(listingEntity.getDepartTime());</span>
+<span class="fc" id="L173">      setId(listingEntity.getId());</span>
+<span class="fc" id="L174">    } else {</span>
+<span class="fc" id="L175">      throw new NotFoundException(&quot;Listing with given id doesn't exist&quot;);</span>
+    }
+<span class="fc" id="L177">  }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.6.201602180812</span></div></body></html>

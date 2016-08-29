@@ -1,0 +1,5 @@
+service/UserServiceTest.class
+service/SourceServiceTest.class
+service/AddressServiceTest.class
+service/BVehicleServiceTest.class
+service/ListingServiceTest.class

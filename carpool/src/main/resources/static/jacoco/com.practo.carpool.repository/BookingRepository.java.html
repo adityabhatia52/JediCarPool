@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>BookingRepository.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">car-pool</a> &gt; <a href="index.source.html" class="el_package">com.practo.carpool.repository</a> &gt; <span class="el_source">BookingRepository.java</span></div><h1>BookingRepository.java</h1><pre class="source lang-java linenums">/**
+ * 
+ */
+package com.practo.carpool.repository;
+
+import org.hibernate.criterion.DetachedCriteria;
+import org.hibernate.criterion.Restrictions;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
+import org.springframework.orm.hibernate5.HibernateTemplate;
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.practo.carpool.data.entity.Booking;
+import com.practo.carpool.exceptions.NotFoundException;
+
+/**
+ * @author aditya
+ *
+ */
+@Repository
+<span class="fc" id="L22">public class BookingRepository implements CrudRepository&lt;Booking, Integer&gt; {</span>
+
+  @Autowired
+  protected HibernateTemplate hibTemp;
+
+  @Override
+  public Iterable&lt;Booking&gt; findAll() {
+<span class="nc" id="L29">    return hibTemp.loadAll(Booking.class);</span>
+  }
+
+  @Override
+  public Booking findOne(Integer id) throws NotFoundException {
+    try {
+<span class="fc" id="L35">      return hibTemp.load(Booking.class, id);</span>
+<span class="nc" id="L36">    } catch (DataAccessException exception) {</span>
+<span class="nc" id="L37">      throw new NotFoundException(&quot;No Booking found for the given Id&quot;);</span>
+    }
+  }
+
+  @Override
+  @Transactional
+  public Booking save(Booking entity) throws NotFoundException {
+    // try-catch will be triggered on attempting to update an entity which doesn't exist
+    try {
+<span class="fc" id="L46">      hibTemp.merge(entity);</span>
+<span class="fc" id="L47">      return entity;</span>
+<span class="nc" id="L48">    } catch (DataAccessException exception) {</span>
+<span class="nc" id="L49">      throw new NotFoundException(&quot;No Booking found for the given Id&quot;);</span>
+    }
+  }
+
+  @Override
+  @Transactional
+  public void delete(Integer id) throws NotFoundException {
+<span class="nc" id="L56">    hibTemp.delete(findOne(id));</span>
+<span class="nc" id="L57">  }</span>
+
+  public Iterable&lt;Booking&gt; findByListingId(Integer listingId) {
+<span class="fc" id="L60">    return (Iterable&lt;Booking&gt;) hibTemp.findByCriteria(</span>
+<span class="fc" id="L61">        DetachedCriteria.forClass(Booking.class).add(Restrictions.eq(&quot;listing.id&quot;, listingId)));</span>
+  }
+
+  public Booking findByListingIdAndId(Integer listingId, Integer bookingId)
+      throws NotFoundException {
+    try {
+<span class="fc" id="L67">      return (Booking) hibTemp.findByCriteria(DetachedCriteria.forClass(Booking.class)</span>
+<span class="fc" id="L68">          .add(Restrictions.eq(&quot;listing.id&quot;, listingId)).add(Restrictions.eq(&quot;id&quot;, bookingId))).get(0);</span>
+<span class="fc" id="L69">    } catch (IndexOutOfBoundsException exception) {</span>
+<span class="fc" id="L70">      throw new NotFoundException(&quot;No Booking found with given Id&quot;);</span>
+    }
+  }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.6.201602180812</span></div></body></html>

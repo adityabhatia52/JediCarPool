@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>BookingModel.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">car-pool</a> &gt; <a href="index.source.html" class="el_package">com.practo.carpool.data.model</a> &gt; <span class="el_source">BookingModel.java</span></div><h1>BookingModel.java</h1><pre class="source lang-java linenums">package com.practo.carpool.data.model;
+
+import java.io.Serializable;
+
+import com.practo.carpool.data.entity.Booking;
+import com.practo.carpool.exceptions.NotFoundException;
+
+/**Model for the booking entity;{@link Booking}.
+ * @author aditya
+ *
+ */
+public class BookingModel implements Serializable {
+  private static final long serialVersionUID = 1L;
+
+  private int idBooking;
+
+  private ListingModel listingModel;
+
+  private UserModel userModel;
+
+<span class="fc" id="L21">  public BookingModel() {}</span>
+
+<span class="nc" id="L23">  public BookingModel(ListingModel listingModel, UserModel userModel) {</span>
+<span class="nc" id="L24">    this.listingModel = listingModel;</span>
+<span class="nc" id="L25">    this.userModel = userModel;</span>
+
+<span class="nc" id="L27">  }</span>
+
+  public int getIdBooking() {
+<span class="fc" id="L30">    return this.idBooking;</span>
+  }
+
+  public void setIdBooking(int idBooking) {
+<span class="fc" id="L34">    this.idBooking = idBooking;</span>
+<span class="fc" id="L35">  }</span>
+
+  public ListingModel getListingModel() {
+<span class="fc" id="L38">    return this.listingModel;</span>
+  }
+
+  public void setListingModel(ListingModel listingModel) {
+<span class="fc" id="L42">    this.listingModel = listingModel;</span>
+<span class="fc" id="L43">  }</span>
+
+  public UserModel getUserModel() {
+<span class="fc" id="L46">    return this.userModel;</span>
+  }
+
+  public void setUserModel(UserModel userModel) {
+<span class="fc" id="L50">    this.userModel = userModel;</span>
+<span class="fc" id="L51">  }</span>
+
+  // model to entity
+  public Booking entityGet() {
+<span class="fc" id="L55">    Booking BookingEntity = new Booking();</span>
+<span class="pc bpc" id="L56" title="1 of 2 branches missed.">    if (this.getUserModel() != null) {</span>
+<span class="fc" id="L57">      BookingEntity.setUser(this.getUserModel().entityGet());</span>
+    }
+<span class="pc bpc" id="L59" title="1 of 2 branches missed.">    if (this.getListingModel() != null) {</span>
+<span class="fc" id="L60">      BookingEntity.setListing(this.getListingModel().entityGet());</span>
+    }
+<span class="pc bpc" id="L62" title="1 of 2 branches missed.">    if (new Integer(getIdBooking()) != null)</span>
+<span class="fc" id="L63">      BookingEntity.setIdBooking(getIdBooking());</span>
+<span class="fc" id="L64">    return BookingEntity;</span>
+  }
+
+  // entity to model
+  public void entityPost(Booking bookingEntity) throws NotFoundException {
+<span class="pc bpc" id="L69" title="1 of 4 branches missed.">    if (bookingEntity != null &amp;&amp; bookingEntity.getDeletedAt() == null) {</span>
+<span class="fc" id="L70">      this.setIdBooking(bookingEntity.getIdBooking());</span>
+<span class="fc" id="L71">      UserModel uModel = new UserModel();</span>
+      try {
+<span class="fc" id="L73">        uModel.entityPost(bookingEntity.getUser());</span>
+<span class="fc" id="L74">        this.setUserModel(uModel);</span>
+<span class="nc" id="L75">      } catch (NotFoundException exception) {</span>
+<span class="nc" id="L76">        exception.printStackTrace();</span>
+<span class="fc" id="L77">      }</span>
+
+<span class="fc" id="L79">      ListingModel lModel = new ListingModel();</span>
+      try {
+<span class="fc" id="L81">        lModel.entityPost(bookingEntity.getListing());</span>
+<span class="fc" id="L82">        setListingModel(lModel);</span>
+<span class="fc" id="L83">      } catch (NotFoundException exception) {</span>
+<span class="fc" id="L84">        exception.printStackTrace();</span>
+<span class="fc" id="L85">      }</span>
+<span class="fc" id="L86">    } else {</span>
+<span class="fc" id="L87">      throw new NotFoundException(&quot;Booking with given id doesn't exist&quot;);</span>
+    }
+<span class="fc" id="L89">  }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.6.201602180812</span></div></body></html>

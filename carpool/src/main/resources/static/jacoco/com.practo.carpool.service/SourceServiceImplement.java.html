@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>SourceServiceImplement.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">car-pool</a> &gt; <a href="index.source.html" class="el_package">com.practo.carpool.service</a> &gt; <span class="el_source">SourceServiceImplement.java</span></div><h1>SourceServiceImplement.java</h1><pre class="source lang-java linenums">/**
+ * 
+ */
+
+package com.practo.carpool.service;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+import org.hibernate.ObjectNotFoundException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.practo.carpool.data.entity.Source;
+import com.practo.carpool.data.model.SourceModel;
+import com.practo.carpool.exceptions.NotFoundException;
+import com.practo.carpool.repository.SourceRepository;
+
+/**
+ * @author aditya
+ *
+ */
+@Service
+@Transactional
+<span class="fc" id="L27">public class SourceServiceImplement implements SourceService {</span>
+  @Autowired
+  private SourceRepository sourceRepo;
+
+  @Override
+  public Iterable&lt;SourceModel&gt; get() {
+<span class="fc" id="L33">    Iterable&lt;Source&gt; entities = sourceRepo.findAll();</span>
+<span class="fc" id="L34">    List&lt;SourceModel&gt; ulist = new ArrayList&lt;SourceModel&gt;();</span>
+<span class="fc bfc" id="L35" title="All 2 branches covered.">    for (Source entity : entities) {</span>
+<span class="fc" id="L36">      SourceModel sourceModel = new SourceModel();</span>
+      try {
+<span class="fc" id="L38">        sourceModel.entityPost(entity);</span>
+<span class="fc" id="L39">        ulist.add(sourceModel);</span>
+<span class="nc" id="L40">      } catch (NotFoundException exception) {</span>
+        // Nothing needs to be done on accessing an deleted entity because the deleted entity won't
+        // be added to the list
+<span class="fc" id="L43">      }</span>
+<span class="fc" id="L44">    }</span>
+<span class="fc" id="L45">    return ulist;</span>
+  }
+
+  @Override
+  public SourceModel get(int id) throws NotFoundException {
+<span class="fc" id="L50">    Source sourceEntity = sourceRepo.findOne(id);</span>
+<span class="fc" id="L51">    SourceModel um = new SourceModel();</span>
+    try {
+<span class="fc" id="L53">      um.entityPost(sourceEntity);</span>
+<span class="fc" id="L54">    } catch (ObjectNotFoundException exception) {</span>
+<span class="fc" id="L55">      throw new NotFoundException(&quot;Source with given id not found&quot;);</span>
+<span class="fc" id="L56">    }</span>
+<span class="fc" id="L57">    return um;</span>
+  }
+
+  @Override
+  public SourceModel create(SourceModel sourceModel) {
+<span class="fc" id="L62">    Source entity = new Source();</span>
+<span class="fc" id="L63">    entity = sourceModel.entityGet();</span>
+<span class="fc" id="L64">    entity.setCreatedAt(new Date());</span>
+    try {
+<span class="fc" id="L66">      sourceRepo.save(entity);</span>
+<span class="fc" id="L67">      sourceModel.entityPost(entity);</span>
+<span class="nc" id="L68">    } catch (NotFoundException exception) {</span>
+<span class="nc" id="L69">      exception.printStackTrace();</span>
+<span class="fc" id="L70">    }</span>
+<span class="fc" id="L71">    return sourceModel;</span>
+  }
+
+  @Override
+  public SourceModel update(SourceModel sourceModel, int id) throws NotFoundException {
+<span class="pc bpc" id="L76" title="1 of 2 branches missed.">    if (sourceRepo.findOne(id).getDeletedAt() == null) {</span>
+<span class="fc" id="L77">      Source entity = new Source();</span>
+<span class="fc" id="L78">      entity = sourceModel.entityGet();</span>
+<span class="fc" id="L79">      entity.setId(id);</span>
+<span class="fc" id="L80">      entity.setModifiedAt(new Date());</span>
+      try {
+<span class="fc" id="L82">        sourceRepo.save(entity);</span>
+<span class="fc" id="L83">        sourceModel.entityPost(entity);</span>
+<span class="nc" id="L84">      } catch (NotFoundException exception) {</span>
+<span class="nc" id="L85">        exception.printStackTrace();</span>
+<span class="fc" id="L86">      }</span>
+<span class="fc" id="L87">      return sourceModel;</span>
+    } else {
+<span class="nc" id="L89">      throw new NotFoundException(&quot;Source with the given id doesn't exist&quot;);</span>
+    }
+  }
+
+  @Override
+  public void delete(int id) throws NotFoundException {
+    try {
+<span class="fc" id="L96">      Source sourceEntity = sourceRepo.findOne(id);</span>
+<span class="fc" id="L97">      sourceEntity.setDeletedAt(new Date());</span>
+<span class="nc" id="L98">    } catch (ObjectNotFoundException exception) {</span>
+<span class="nc" id="L99">      throw new NotFoundException(&quot;Source with the given id doesn't exist&quot;);</span>
+<span class="fc" id="L100">    }</span>
+<span class="fc" id="L101">  }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.6.201602180812</span></div></body></html>

@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>ListingRepository.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">car-pool</a> &gt; <a href="index.source.html" class="el_package">com.practo.carpool.repository</a> &gt; <span class="el_source">ListingRepository.java</span></div><h1>ListingRepository.java</h1><pre class="source lang-java linenums">package com.practo.carpool.repository;
+
+import org.hibernate.criterion.DetachedCriteria;
+import org.hibernate.criterion.Restrictions;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
+import org.springframework.data.domain.Pageable;
+import org.springframework.orm.hibernate5.HibernateTemplate;
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.practo.carpool.data.entity.Listing;
+import com.practo.carpool.data.filter.ListingFilter;
+import com.practo.carpool.exceptions.NotFoundException;
+
+@Repository
+<span class="fc" id="L17">public class ListingRepository implements CrudRepository&lt;Listing, Integer&gt; {</span>
+
+  @Autowired
+  protected HibernateTemplate hibTemp;
+
+  @Override
+  public Iterable&lt;Listing&gt; findAll() {
+<span class="nc" id="L24">    return hibTemp.loadAll(Listing.class);</span>
+  }
+
+
+  public Iterable&lt;Listing&gt; findAll(Pageable pageable) {
+<span class="fc" id="L29">    return hibTemp.loadAll(Listing.class);</span>
+  }
+
+  @Override
+  public Listing findOne(Integer id) throws NotFoundException {
+    try {
+<span class="fc" id="L35">      return hibTemp.load(Listing.class, id);</span>
+<span class="nc" id="L36">    } catch (DataAccessException exception) {</span>
+<span class="nc" id="L37">      throw new NotFoundException(&quot;No Listing found for the given Id&quot;);</span>
+    }
+  }
+
+  @Override
+  @Transactional
+  public Listing save(Listing entity) throws NotFoundException {
+    // try-catch will be triggered on attempting to update an entity which doesn't exist
+    try {
+<span class="fc" id="L46">      hibTemp.merge(entity);</span>
+<span class="fc" id="L47">      return entity;</span>
+<span class="nc" id="L48">    } catch (DataAccessException exception) {</span>
+<span class="nc" id="L49">      throw new NotFoundException(&quot;No Listing found for the given Id&quot;);</span>
+    }
+  }
+
+  @Override
+  @Transactional
+  public void delete(Integer id) throws NotFoundException {
+<span class="nc" id="L56">    hibTemp.delete(findOne(id));</span>
+
+<span class="nc" id="L58">  }</span>
+
+  public Iterable&lt;Listing&gt; filter(ListingFilter filter, Pageable pageable) {
+
+<span class="nc" id="L62">    DetachedCriteria criteria = DetachedCriteria.forClass(Listing.class);</span>
+
+<span class="nc" id="L64">    criteria = criteria.add(Restrictions.between(&quot;seatAvailable&quot;, filter.getMinSeatsAvailable(),</span>
+<span class="nc" id="L65">        filter.getMaxSeatsAvailable()));</span>
+
+<span class="nc" id="L67">    criteria = criteria</span>
+<span class="nc" id="L68">        .add(Restrictions.between(&quot;seatAvailable&quot;, filter.getMinTime(), filter.getMaxTime()));</span>
+
+<span class="nc bnc" id="L70" title="All 2 branches missed.">    if ((Integer) filter.getSource() != null) {</span>
+<span class="nc" id="L71">      criteria = criteria.add(Restrictions.eq(&quot;source.id&quot;, filter.getSource()));</span>
+    }
+
+<span class="nc" id="L74">    return (Iterable&lt;Listing&gt;) hibTemp.findByCriteria(criteria, pageable.getOffset(),</span>
+<span class="nc" id="L75">        pageable.getPageSize());</span>
+  }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.6.201602180812</span></div></body></html>
