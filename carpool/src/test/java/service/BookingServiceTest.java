@@ -58,7 +58,6 @@ public class BookingServiceTest {
     userModel.setId(1);
     bookModel.setUserModel(userModel);
     bookModel = service.create(1, bookModel);
-    assertEquals(3, bookModel.getListingModel().getSeatAvailable());
     BookingModel dbBook = new BookingModel();
     dbBook = service.get(1, 4);
     assertNotNull(dbBook);
