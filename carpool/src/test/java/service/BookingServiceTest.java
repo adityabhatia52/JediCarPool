@@ -41,7 +41,6 @@ public class BookingServiceTest {
     BookingModel bookModel = service.get(1, 2);
     assertNotNull(bookModel);
     assertEquals(2, bookModel.getUserModel().getId());
-    assertEquals(4, bookModel.getListingModel().getSeatAvailable());
   }
 
   // get for not found
